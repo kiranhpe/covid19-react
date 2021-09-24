@@ -1,0 +1,27 @@
+.cv-home {
+    padding: 54px;
+    .cv-row {
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 32px;
+        .cv-card {
+            border-radius: 5px;
+            box-shadow: 0 0 4px;
+            padding: 12px;
+            p {
+                padding: 8px 0;
+                font-weight: 600;
+            }
+           
+        }
+        @media screen and (max-width:732px) {
+            grid-template-columns: 1fr;
+            grid-row-gap: 32px;
+        }
+    }
+   
+    @media screen and (max-width:732px) {
+        padding: 12px;
+    }
+}
