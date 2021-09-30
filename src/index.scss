@@ -1,21 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
-
-body {
-  margin: 0;
-  font-family:  'Roboto', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family:  'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
+}
+body {
+  background-color: #E5E5E5;
 }

@@ -1,23 +1,57 @@
+
+@import '../../../public/assets/_variables';
 .cv-home {
-    padding: 54px;
+    padding: 34px;
     .cv-row {
-        display: grid;
-        justify-content: center;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-column-gap: 32px;
+        display: flex;
+        justify-content: space-between;
+        .cv-alert {
+            color: $color-red !important;
+        }
+        .cv-warning {
+            color: $color-yellow !important;
+        }
+        .cv-primary {
+            color: $color-accent-blue !important;
+        }
+        .cv-success {
+            color: $color-green !important;
+        }
         .cv-card {
-            border-radius: 5px;
-            box-shadow: 0 0 4px;
-            padding: 12px;
-            p {
-                padding: 8px 0;
+            flex: 1;
+            border-radius: 4px;
+            padding: 24px;
+            box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.06);
+            background-color: $color-white !important;
+            display: flex;
+            flex-direction: column;
+            .cv-label {
                 font-weight: 600;
+                font-size: 24px;
             }
-           
+            .cv-count {
+                font-size: 32px;
+                font-weight: 600;
+                .cv-delta {
+                    font-size: 16px;
+                    font-weight: 300;
+                    float: right;
+                    .cv-icon {
+                        margin-right: 8px;
+                    }
+                }
+            }
+
+            &:not(:first-child) {
+                margin-left: 24px;
+            }
         }
         @media screen and (max-width:732px) {
-            grid-template-columns: 1fr;
-            grid-row-gap: 32px;
+            flex-direction: column;
+            .cv-card:not(:first-child) {
+                margin-top: 16px;
+                margin-left: 0;
+            }
         }
     }
    

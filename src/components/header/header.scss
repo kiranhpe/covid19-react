@@ -1,9 +1,14 @@
+@import '../../../public/assets/variables';
+
 .cv-toolbar {
     width: 100%;
-    padding: 12px;
+    padding: 17px 24px;
+    height: 60px;
+    background-color: $color-white;
     .cv-brand {
-        font-size: 32px;
-        margin-left: 48px;
+        font-size: 18px;
+        font-weight: 600;
+        color: $color-accent-blue;
         @media screen and (max-width:732px) {
             margin-left: 0;
             font-size: 24px;
