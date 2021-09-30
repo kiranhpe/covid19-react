@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line} from 'recharts';
 
 import { FaArrowUp } from "react-icons/fa";
 import "./home.scss";
@@ -20,13 +20,13 @@ const Home = () => {
         <div className="cv-card cv-alert">
           <span className="cv-label">Confirmed</span>
           <span className="cv-count">
-            {dashboard?.TT.total.confirmed}{" "}
+            {dashboard?.TT.total.confirmed.toLocaleString()}
             <span className="cv-delta">
               <FaArrowUp className="cv-icon" />
-              {dashboard?.TT.delta.confirmed}
+              {dashboard?.TT.delta.confirmed.toLocaleString()}
             </span>
           </span>
-          <div>
+          {/* <div>
               <LineChart
                 width={300}
                 height={100}
@@ -34,32 +34,32 @@ const Home = () => {
               >
                 <Line dot={false} type="natural" dataKey="uv" stroke="#82ca9d" />
               </LineChart>
-          </div>
+          </div> */}
         </div>
         <div className="cv-card cv-warning">
           <span className="cv-label">Deceased</span>
           <span className="cv-count">
-            {dashboard?.TT.total.deceased}
+            {dashboard?.TT.total.deceased.toLocaleString()}
             <span className="cv-delta">
               <FaArrowUp className="cv-icon" />
-              {dashboard?.TT.delta.deceased}
+              {dashboard?.TT.delta.deceased.toLocaleString()}
             </span>
           </span>
         </div>
         <div className="cv-card cv-primary">
           <span className="cv-label">Active</span>
           <span className="cv-count">
-            {dashboard?.TT.total.confirmed -
-              (dashboard?.TT.total.deceased + dashboard?.TT.total.recovered)}
+            {(dashboard?.TT.total.confirmed -
+              (dashboard?.TT.total.deceased + dashboard?.TT.total.recovered)).toLocaleString()}
           </span>
         </div>
         <div className="cv-card cv-success">
           <span className="cv-label">Recovered</span>
           <span className="cv-count">
-            {dashboard?.TT.total.recovered}{" "}
+            {dashboard?.TT.total.recovered.toLocaleString()}{" "}
             <span className="cv-delta">
               <FaArrowUp className="cv-icon" />
-              {dashboard?.TT.delta.recovered}
+              {dashboard?.TT.delta.recovered.toLocaleString()}
             </span>
           </span>
         </div>
