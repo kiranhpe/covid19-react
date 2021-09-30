@@ -32,7 +32,9 @@ const Home = () => {
           </span>
           <div>
             <LineChart width={300} height={100} data={data}>
-              <Line dot={false} type="natural" dataKey="uv" stroke="#82ca9d" />
+              <Line dot={false} type="natural" dataKey="uv" stroke="#F7685B" strokeWidth={2}/>
+
+
             </LineChart>
           </div>
         </div>

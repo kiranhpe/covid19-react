@@ -9,7 +9,7 @@
         font-size: 18px;
         font-weight: 600;
         color: $color-accent-blue;
-        @media screen and (max-width:732px) {
+        @media screen and (max-width:$table-width) {
             margin-left: 0;
             font-size: 24px;
         }
