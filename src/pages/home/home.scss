@@ -25,6 +25,10 @@
             background-color: $color-white !important;
             display: flex;
             flex-direction: column;
+            .cv-last-updated {
+                font-size: 12px;
+                text-align: right;
+            }
             .cv-label {
                 font-weight: 600;
                 font-size: 24px;
@@ -36,10 +40,10 @@
                     font-size: 16px;
                     font-weight: 300;
                     float: right;
-                    .cv-icon {
-                        margin-right: 8px;
-                    }
                 }
+            }
+            .cv-icon {
+                margin-right: 8px;
             }
 
             &:not(:first-child) {
