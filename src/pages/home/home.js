@@ -30,30 +30,13 @@ const Home = () => {
               {dashboard?.TT.delta.confirmed.toLocaleString()}
             </span>
           </span>
-          {/* <div>
-              <LineChart
-                width={300}
-                height={100}
-                data={data}
-              >
-                <Line dot={false} type="natural" dataKey="uv" stroke="#82ca9d" />
-              </LineChart>
-          </div> */}
-        </div>
-        <div className="cv-card cv-warning">
-          <div className="cv-last-updated">
-            <FaRegClock className="cv-icon" />
-            {dashboard?.TT.meta.date}
+          <div>
+            <LineChart width={300} height={100} data={data}>
+              <Line dot={false} type="natural" dataKey="uv" stroke="#82ca9d" />
+            </LineChart>
           </div>
-          <span className="cv-label">Deceased</span>
-          <span className="cv-count">
-            {dashboard?.TT.total.deceased.toLocaleString()}
-            <span className="cv-delta">
-              <FaArrowUp className="cv-icon" />
-              {dashboard?.TT.delta.deceased.toLocaleString()}
-            </span>
-          </span>
         </div>
+
         <div className="cv-card cv-primary">
           <div className="cv-last-updated">
             <FaRegClock className="cv-icon" />
@@ -78,6 +61,20 @@ const Home = () => {
             <span className="cv-delta">
               <FaArrowUp className="cv-icon" />
               {dashboard?.TT.delta.recovered.toLocaleString()}
+            </span>
+          </span>
+        </div>
+        <div className="cv-card cv-warning">
+          <div className="cv-last-updated">
+            <FaRegClock className="cv-icon" />
+            {dashboard?.TT.meta.date}
+          </div>
+          <span className="cv-label">Deceased</span>
+          <span className="cv-count">
+            {dashboard?.TT.total.deceased.toLocaleString()}
+            <span className="cv-delta">
+              <FaArrowUp className="cv-icon" />
+              {dashboard?.TT.delta.deceased.toLocaleString()}
             </span>
           </span>
         </div>
