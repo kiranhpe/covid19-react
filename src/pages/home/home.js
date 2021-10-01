@@ -55,21 +55,25 @@ const Home = () => {
           <span className="cv-label">Confirmed</span>
           <span className="cv-count">
             {dashboard?.TT.total.confirmed.toLocaleString()}
-            <span className="cv-delta">
-              <FaArrowUp className="cv-icon" />
-              {dashboard?.TT.delta.confirmed.toLocaleString()}
-            </span>
+            {dashboard?.TT.delta.confirmed !== 0 && (
+              <span className="cv-delta">
+                <FaArrowUp className="cv-icon" />
+                {dashboard?.TT.delta.confirmed.toLocaleString()}
+              </span>
+            )}
           </span>
-          <div className="cv-chart">
-            <LineChart width={300} height={100} data={dashboardChar}>
-              <Line
-                dot={false}
-                type="natural"
-                dataKey="confirm"
-                stroke="#F7685B"
-                strokeWidth={3}
-              />
-            </LineChart>
+          <div className="cv-chart-container">
+            <ResponsiveContainer>
+              <LineChart data={dashboardChar}>
+                <Line
+                  dot={false}
+                  type="natural"
+                  dataKey="confirm"
+                  stroke="#F7685B"
+                  strokeWidth={3}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
@@ -85,15 +89,19 @@ const Home = () => {
               (dashboard?.TT.total.deceased + dashboard?.TT.total.recovered)
             ).toLocaleString()}
           </span>
-          <LineChart width={300} height={100} data={dashboardChar}>
-            <Line
-              dot={false}
-              type="natural"
-              dataKey="active"
-              stroke="#F7685B"
-              strokeWidth={3}
-            />
-          </LineChart>
+          <div className="cv-chart-container">
+            <ResponsiveContainer>
+              <LineChart data={dashboardChar}>
+                <Line
+                  dot={false}
+                  type="natural"
+                  dataKey="active"
+                  stroke="#109CF1"
+                  strokeWidth={3}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
         <div className="cv-card cv-success">
           <div className="cv-last-updated">
@@ -103,20 +111,26 @@ const Home = () => {
           <span className="cv-label">Recovered</span>
           <span className="cv-count">
             {dashboard?.TT.total.recovered.toLocaleString()}{" "}
-            <span className="cv-delta">
-              <FaArrowUp className="cv-icon" />
-              {dashboard?.TT.delta.recovered.toLocaleString()}
-            </span>
+            {dashboard?.TT.delta.recovered !== 0 && (
+              <span className="cv-delta">
+                <FaArrowUp className="cv-icon" />
+                {dashboard?.TT.delta.recovered.toLocaleString()}
+              </span>
+            )}
           </span>
-          <LineChart width={300} height={100} data={dashboardChar}>
-            <Line
-              dot={false}
-              type="natural"
-              dataKey="recovered"
-              stroke="#F7685B"
-              strokeWidth={3}
-            />
-          </LineChart>
+          <div className="cv-chart-container">
+            <ResponsiveContainer>
+              <LineChart data={dashboardChar}>
+                <Line
+                  dot={false}
+                  type="natural"
+                  dataKey="recovered"
+                  stroke="#2ED47A"
+                  strokeWidth={3}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
         <div className="cv-card cv-warning">
           <div className="cv-last-updated">
@@ -126,20 +140,26 @@ const Home = () => {
           <span className="cv-label">Deceased</span>
           <span className="cv-count">
             {dashboard?.TT.total.deceased.toLocaleString()}
-            <span className="cv-delta">
-              <FaArrowUp className="cv-icon" />
-              {dashboard?.TT.delta.deceased.toLocaleString()}
-            </span>
+            {dashboard?.TT.delta.deceased && (
+              <span className="cv-delta">
+                <FaArrowUp className="cv-icon" />
+                {dashboard?.TT.delta.deceased.toLocaleString()}
+              </span>
+            )}
           </span>
-          <LineChart width={300} height={100} data={dashboardChar}>
-            <Line
-              dot={false}
-              type="natural"
-              dataKey="deceased"
-              stroke="#F7685B"
-              strokeWidth={3}
-            />
-          </LineChart>
+          <div className="cv-chart-container">
+            <ResponsiveContainer>
+              <LineChart data={dashboardChar}>
+                <Line
+                  dot={false}
+                  type="natural"
+                  dataKey="deceased"
+                  stroke="#FFB946"
+                  strokeWidth={3}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>
@@ -149,50 +169,5 @@ const Home = () => {
 const getActive = (confirmed = 0, recovered = 0, deceased = 0) => {
   return confirmed - (recovered + deceased);
 };
-
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
 
 export default Home;
