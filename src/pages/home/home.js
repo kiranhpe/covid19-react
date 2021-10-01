@@ -19,24 +19,26 @@ const Home = () => {
       .then((res) => {
         const jsonData = res.data;
         let chartData = [];
-        Object.keys(jsonData.TT.dates).forEach((item) => {
-          chartData.push({
-            name: item,
-            confirm: jsonData.TT.dates[item].delta7?.confirmed
-              ? jsonData.TT.dates[item].delta7?.confirmed
-              : 0,
-            active: getActive(
-              jsonData.TT.dates[item].delta7?.confirmed,
-              jsonData.TT.dates[item].delta7?.recovered,
-              jsonData.TT.dates[item].delta7?.deceased
-            ),
-            recovered: jsonData.TT.dates[item].delta7?.recovered
-              ? jsonData.TT.dates[item].delta7?.recovered
-              : 0,
-            deceased: jsonData.TT.dates[item].delta7?.deceased
-              ? jsonData.TT.dates[item].delta7?.deceased
-              : 0,
-          });
+        Object.keys(jsonData.TT.dates).forEach((item, index) => {
+          if (index % 15 === 0) {
+            chartData.push({
+              name: item,
+              confirm: jsonData.TT.dates[item].delta7?.confirmed
+                ? jsonData.TT.dates[item].delta7?.confirmed
+                : 0,
+              active: getActive(
+                jsonData.TT.dates[item].delta7?.confirmed,
+                jsonData.TT.dates[item].delta7?.recovered,
+                jsonData.TT.dates[item].delta7?.deceased
+              ),
+              recovered: jsonData.TT.dates[item].delta7?.recovered
+                ? jsonData.TT.dates[item].delta7?.recovered
+                : 0,
+              deceased: jsonData.TT.dates[item].delta7?.deceased
+                ? jsonData.TT.dates[item].delta7?.deceased
+                : 0,
+            });
+          }
         });
         setDashboardChar(chartData);
       });
@@ -65,7 +67,7 @@ const Home = () => {
                 type="natural"
                 dataKey="confirm"
                 stroke="#F7685B"
-                strokeWidth={2}
+                strokeWidth={3}
               />
             </LineChart>
           </div>
@@ -89,7 +91,7 @@ const Home = () => {
               type="natural"
               dataKey="active"
               stroke="#F7685B"
-              strokeWidth={2}
+              strokeWidth={3}
             />
           </LineChart>
         </div>
@@ -112,7 +114,7 @@ const Home = () => {
               type="natural"
               dataKey="recovered"
               stroke="#F7685B"
-              strokeWidth={2}
+              strokeWidth={3}
             />
           </LineChart>
         </div>
@@ -135,7 +137,7 @@ const Home = () => {
               type="natural"
               dataKey="deceased"
               stroke="#F7685B"
-              strokeWidth={2}
+              strokeWidth={3}
             />
           </LineChart>
         </div>
