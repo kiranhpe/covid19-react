@@ -1,16 +1,44 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { LineChart, Line } from "recharts";
+import { LineChart, Line, ResponsiveContainer } from "recharts";
 
 import { FaArrowUp, FaRegClock } from "react-icons/fa";
 import "./home.scss";
 const Home = () => {
   const [dashboard, setDashboard] = useState(null);
+  const [dashboardChar, setDashboardChar] = useState(null);
   useEffect(() => {
     axios
       .get("https://data.covid19india.org/v4/min/data.min.json")
       .then((res) => {
         setDashboard(res.data);
+      });
+
+    axios
+      .get("https://data.covid19india.org/v4/min/timeseries.min.json")
+      .then((res) => {
+        const jsonData = res.data;
+        let chartData = [];
+        Object.keys(jsonData.TT.dates).forEach((item) => {
+          chartData.push({
+            name: item,
+            confirm: jsonData.TT.dates[item].delta7?.confirmed
+              ? jsonData.TT.dates[item].delta7?.confirmed
+              : 0,
+            active: getActive(
+              jsonData.TT.dates[item].delta7?.confirmed,
+              jsonData.TT.dates[item].delta7?.recovered,
+              jsonData.TT.dates[item].delta7?.deceased
+            ),
+            recovered: jsonData.TT.dates[item].delta7?.recovered
+              ? jsonData.TT.dates[item].delta7?.recovered
+              : 0,
+            deceased: jsonData.TT.dates[item].delta7?.deceased
+              ? jsonData.TT.dates[item].delta7?.deceased
+              : 0,
+          });
+        });
+        setDashboardChar(chartData);
       });
   }, []);
 
@@ -30,11 +58,15 @@ const Home = () => {
               {dashboard?.TT.delta.confirmed.toLocaleString()}
             </span>
           </span>
-          <div>
-            <LineChart width={300} height={100} data={data}>
-              <Line dot={false} type="natural" dataKey="uv" stroke="#F7685B" strokeWidth={2}/>
-
-
+          <div className="cv-chart">
+            <LineChart width={300} height={100} data={dashboardChar}>
+              <Line
+                dot={false}
+                type="natural"
+                dataKey="confirm"
+                stroke="#F7685B"
+                strokeWidth={2}
+              />
             </LineChart>
           </div>
         </div>
@@ -51,6 +83,15 @@ const Home = () => {
               (dashboard?.TT.total.deceased + dashboard?.TT.total.recovered)
             ).toLocaleString()}
           </span>
+          <LineChart width={300} height={100} data={dashboardChar}>
+            <Line
+              dot={false}
+              type="natural"
+              dataKey="active"
+              stroke="#F7685B"
+              strokeWidth={2}
+            />
+          </LineChart>
         </div>
         <div className="cv-card cv-success">
           <div className="cv-last-updated">
@@ -65,6 +106,15 @@ const Home = () => {
               {dashboard?.TT.delta.recovered.toLocaleString()}
             </span>
           </span>
+          <LineChart width={300} height={100} data={dashboardChar}>
+            <Line
+              dot={false}
+              type="natural"
+              dataKey="recovered"
+              stroke="#F7685B"
+              strokeWidth={2}
+            />
+          </LineChart>
         </div>
         <div className="cv-card cv-warning">
           <div className="cv-last-updated">
@@ -79,11 +129,25 @@ const Home = () => {
               {dashboard?.TT.delta.deceased.toLocaleString()}
             </span>
           </span>
+          <LineChart width={300} height={100} data={dashboardChar}>
+            <Line
+              dot={false}
+              type="natural"
+              dataKey="deceased"
+              stroke="#F7685B"
+              strokeWidth={2}
+            />
+          </LineChart>
         </div>
       </div>
     </div>
   );
 };
+
+const getActive = (confirmed = 0, recovered = 0, deceased = 0) => {
+  return confirmed - (recovered + deceased);
+};
+
 const data = [
   {
     name: "Page A",
