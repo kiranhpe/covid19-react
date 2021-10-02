@@ -1,5 +1,4 @@
 import React from 'react'
-import { LineChart, Line, ResponsiveContainer } from "recharts";
 import { FaArrowUp } from "react-icons/fa";
 import { Chart } from '../chart/chart';
 export const Card = ({card, chart}) => {

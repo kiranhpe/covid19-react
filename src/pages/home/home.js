@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
-import { FaArrowUp, FaRegClock } from "react-icons/fa";
+
 
 import "./home.scss";
 import { Card } from "../../components/card/card";
@@ -19,13 +18,13 @@ const Home = () => {
         const tempdashdata = covidDataResponse.data;
         let tempCards = [
           {
-            label: "confirmed",
+            label: "Confirmed",
             value: tempdashdata?.TT.total.confirmed,
             delta: tempdashdata?.TT.delta.confirmed,
             cardClass: "cv-alert",
           },
           {
-            label: "active",
+            label: "Active",
             value:
               tempdashdata?.TT.total.confirmed -
               (tempdashdata?.TT.total.deceased +
@@ -34,13 +33,13 @@ const Home = () => {
             cardClass: "cv-primary",
           },
           {
-            label: "recovered",
+            label: "Recovered",
             value: tempdashdata?.TT.total.recovered,
             delta: tempdashdata?.TT.delta.recovered,
             cardClass: "cv-success",
           },
           {
-            label: "deceased",
+            label: "Deceased",
             value: tempdashdata?.TT.total.deceased,
             delta: tempdashdata?.TT.delta.deceased,
             cardClass: "cv-warning",
@@ -116,6 +115,7 @@ const Home = () => {
         {cards ? cards.map((x,i)=> {return <Card
           card={cards ? cards[i] : null}
           chart={charts ? charts[i] : null}
+          key={i}
         ></Card>}) : null}
       </div>
     </div>
