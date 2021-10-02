@@ -115,13 +115,17 @@ const Home = () => {
     });
   }, [currentState]);
 
-  function fetchStates() {
+  const  fetchStates = () => {
       let selectStatesFeed = statesConfig.map((v) => {
         return { value: v.key, label: v.name };
       });
       setStates({ states: selectStatesFeed });
       setStatesLoading(false);
   }
+
+  const getActive = (confirmed = 0, recovered = 0, deceased = 0) => {
+    return confirmed - (recovered + deceased);
+  };
 
   return (
     <div className="cv-home">
@@ -148,10 +152,6 @@ const Home = () => {
       </div>
     </div>
   );
-};
-
-const getActive = (confirmed = 0, recovered = 0, deceased = 0) => {
-  return confirmed - (recovered + deceased);
 };
 
 export default Home;
