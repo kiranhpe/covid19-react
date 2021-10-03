@@ -182,7 +182,7 @@ const Home = () => {
             <th>Deseased</th>
           </tr>
           {states?.states?.map((x, i) => {
-            if (mainData) {
+            if (mainData && x.value !=='TT') {
               return (
                 <tr>
                   <td>{x?.label}</td>
