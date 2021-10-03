@@ -12,7 +12,7 @@ export const Chart = ({chart}) => {
                 stroke={chart?.strokeColor}
                 strokeWidth={3}
               />
-                <Tooltip />
+                <Tooltip formatter={(value) => new Intl.NumberFormat('en').format(value)} labelFormatter={(value) => ''}/>
             </LineChart>
           </ResponsiveContainer>
     )
