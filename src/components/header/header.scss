@@ -3,16 +3,20 @@
 .cv-toolbar {
     width: 100%;
     padding: 17px 24px;
-    height: 60px;
     background-color: $color-white;
+    display: flex;
+    align-items: center;
     .cv-brand {
         font-size: 18px;
         font-weight: 600;
         color: $color-accent-blue;
+        margin: 0;
         @media screen and (max-width:$table-width) {
             margin-left: 0;
-            font-size: 24px;
         }
+    }
+    @media screen and (max-width:$table-width) {
+        padding: 12px;
     }
     border-bottom: 2px solid #cccccc;
 }

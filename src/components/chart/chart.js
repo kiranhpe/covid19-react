@@ -7,7 +7,7 @@ export const Chart = ({chart}) => {
             <LineChart data={chart?.data}>
               <Line
                 dot={false}
-                type="natural"
+                type="basis"
                 dataKey={chart?.name}
                 stroke={chart?.strokeColor}
                 strokeWidth={3}
