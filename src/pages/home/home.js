@@ -68,7 +68,7 @@ const Home = () => {
     });
     axios.get(getTimeSeriesAPI()).then((timeSeriesResponse) => {
       const jsonData = timeSeriesResponse.data;
-      setTimeSeries(jsonData)
+      setTimeSeries(jsonData);
       let chartData = [];
       Object.keys(jsonData[currentState].dates).forEach((item, index) => {
         if (index % 15 === 0) {
@@ -182,16 +182,23 @@ const Home = () => {
             <th>Deseased</th>
           </tr>
           {states?.states?.map((x, i) => {
-            if(mainData)
-            return (
-              <tr>
-                <td>{x?.label}</td>
-                <td>{mainData[x.value]?.total?.confirmed}</td>
-                <td>{(mainData[x.value]?.total?.confirmed - (mainData[x.value]?.total?.recovered + mainData[x.value]?.total?.deceased))}</td>
-                <td>{mainData[x.value]?.total?.recovered}</td>
-                <td>{mainData[x.value]?.total?.deceased}</td>
-              </tr>
-            );
+            if (mainData) {
+              return (
+                <tr>
+                  <td>{x?.label}</td>
+                  <td>{mainData[x.value]?.total?.confirmed}</td>
+                  <td>
+                    {mainData[x.value]?.total?.confirmed -
+                      (mainData[x.value]?.total?.recovered +
+                        mainData[x.value]?.total?.deceased)}
+                  </td>
+                  <td>{mainData[x.value]?.total?.recovered}</td>
+                  <td>{mainData[x.value]?.total?.deceased}</td>
+                </tr>
+              );
+            } else {
+              return null;
+            }
           })}
         </table>
       </div>
