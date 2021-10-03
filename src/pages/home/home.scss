@@ -26,12 +26,25 @@
             tr {
                 border-bottom: 1px solid $color-gray-2;
                 padding: 12px;
+                opacity: 0;
+                animation: fade-in 300ms ease forwards;
+
                 th,td {
                     color: $color-dark-blue;
                     text-align: left;
                     padding: 12px 8px;
                 }
-                
+                @for $x from 1 through 32 {
+                    &:nth-child(#{$x}) {
+                      animation-delay: 100ms * ($x - 1);
+                    }
+                  }
+            }
+
+            .cv-state-name {
+                font-weight: 500;
+                font-size: 15px;
+                color: $color-black;
             }
            
            

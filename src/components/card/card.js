@@ -8,11 +8,11 @@ export const Card = ({card, chart}) => {
         <div className={"cv-card " + card.cardClass}>
         <span className="cv-label">{card?.label}</span>
         <span className="cv-count">
-          {card?.value?.toLocaleString()}
+          {card?.value?.toLocaleString('hi')}
           {card?.delta !== 0 && (
             <span className="cv-delta">
               <FaArrowUp className="cv-icon" />
-              {card?.delta?.toLocaleString()}
+              {card?.delta?.toLocaleString('hi')}
             </span>
           )}
         </span>

@@ -79,9 +79,9 @@
             }
        
     }
-    @for $x from 1 through 4 {
+    @for $x from 1 through 5 {
       &:nth-child(#{$x}) {
-        animation-delay: 200ms * ($x - 1);
+        animation-delay: 150ms * ($x - 1);
       }
     }
     
@@ -90,4 +90,4 @@
     to {
       opacity: 1;
     }
-  }
+}

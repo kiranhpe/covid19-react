@@ -174,32 +174,44 @@ const Home = () => {
       </div>
       <div className="cv-table">
         <table>
-          <tr>
-            <th>State</th>
-            <th>Confirmed</th>
-            <th>Active</th>
-            <th>Recovered</th>
-            <th>Deseased</th>
-          </tr>
-          {states?.states?.map((x, i) => {
-            if (mainData && x.value !=='TT') {
-              return (
-                <tr>
-                  <td>{x?.label}</td>
-                  <td>{mainData[x.value]?.total?.confirmed}</td>
-                  <td>
-                    {mainData[x.value]?.total?.confirmed -
-                      (mainData[x.value]?.total?.recovered +
-                        mainData[x.value]?.total?.deceased)}
-                  </td>
-                  <td>{mainData[x.value]?.total?.recovered}</td>
-                  <td>{mainData[x.value]?.total?.deceased}</td>
-                </tr>
-              );
-            } else {
-              return null;
-            }
-          })}
+          <thead>
+            <tr>
+              <th>State</th>
+              <th>Confirmed</th>
+              <th>Active</th>
+              <th>Recovered</th>
+              <th>Deseased</th>
+            </tr>
+          </thead>
+          <tbody>
+            {states?.states?.map((x, i) => {
+              if (mainData && x.value !== "TT") {
+                return (
+                  <tr key={i}>
+                    <td className="cv-state-name">{x?.label}</td>
+                    <td>
+                      {mainData[x.value]?.total?.confirmed.toLocaleString("hi")}
+                    </td>
+                    <td>
+                      {(
+                        mainData[x.value]?.total?.confirmed -
+                        (mainData[x.value]?.total?.recovered +
+                          mainData[x.value]?.total?.deceased)
+                      ).toLocaleString("hi")}
+                    </td>
+                    <td>
+                      {mainData[x.value]?.total?.recovered.toLocaleString("hi")}
+                    </td>
+                    <td>
+                      {mainData[x.value]?.total?.deceased.toLocaleString("hi")}
+                    </td>
+                  </tr>
+                );
+              } else {
+                return null;
+              }
+            })}
+          </tbody>
         </table>
       </div>
     </div>
