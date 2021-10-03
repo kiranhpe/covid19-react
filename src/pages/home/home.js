@@ -11,8 +11,11 @@ const Home = () => {
   const [cards, setCards] = useState(null);
   const [charts, setCharts] = useState(null);
   const [states, setStates] = useState({
-    states: {},
+    states: [],
   });
+
+  const [mainData, setMainData] = useState(null);
+  const [timeSeries, setTimeSeries] = useState(null);
   const [statesLoading, setStatesLoading] = useState(true);
 
   const [currentState, setCurrentState] = useState("TT");
@@ -24,6 +27,7 @@ const Home = () => {
   useEffect(() => {
     axios.get(getCovidDataAPI()).then((covidDataResponse) => {
       const tempdashdata = covidDataResponse.data;
+      setMainData(tempdashdata);
       let tempCards = [
         {
           label: "Confirmed",
@@ -64,6 +68,7 @@ const Home = () => {
     });
     axios.get(getTimeSeriesAPI()).then((timeSeriesResponse) => {
       const jsonData = timeSeriesResponse.data;
+      setTimeSeries(jsonData)
       let chartData = [];
       Object.keys(jsonData[currentState].dates).forEach((item, index) => {
         if (index % 15 === 0) {
@@ -150,7 +155,7 @@ const Home = () => {
         data={states.states}
         onStateChange={(e) => {
           setCurrentState(e.value);
-          console.log(e)
+          console.log(e);
         }}
         isLoading={statesLoading}
       ></DropDown>
@@ -166,6 +171,29 @@ const Home = () => {
               );
             })
           : null}
+      </div>
+      <div className="cv-table">
+        <table>
+          <tr>
+            <th>State</th>
+            <th>Confirmed</th>
+            <th>Active</th>
+            <th>Recovered</th>
+            <th>Deseased</th>
+          </tr>
+          {states?.states?.map((x, i) => {
+            if(mainData)
+            return (
+              <tr>
+                <td>{x?.label}</td>
+                <td>{mainData[x.value]?.total?.confirmed}</td>
+                <td>{(mainData[x.value]?.total?.confirmed - (mainData[x.value]?.total?.recovered + mainData[x.value]?.total?.deceased))}</td>
+                <td>{mainData[x.value]?.total?.recovered}</td>
+                <td>{mainData[x.value]?.total?.deceased}</td>
+              </tr>
+            );
+          })}
+        </table>
       </div>
     </div>
   );
