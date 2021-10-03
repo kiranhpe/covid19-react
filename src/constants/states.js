@@ -116,7 +116,7 @@ export const statesConfig = [
     name: "Tamil Nadu",
   },
   {
-    key: "TS",
+    key: "TG",
     name: "Telangana",
   },
   {

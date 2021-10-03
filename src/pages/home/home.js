@@ -27,35 +27,35 @@ const Home = () => {
       let tempCards = [
         {
           label: "Confirmed",
-          value: tempdashdata?.[currentState].total.confirmed,
-          delta: tempdashdata?.[currentState].delta.confirmed,
+          value: tempdashdata?.[currentState]?.total?.confirmed,
+          delta: tempdashdata?.[currentState]?.delta?.confirmed,
           cardClass: "cv-alert",
         },
         {
           label: "Active",
           value:
-            tempdashdata?.[currentState].total.confirmed -
-            (tempdashdata?.[currentState].total.deceased +
-              tempdashdata?.[currentState].total.recovered),
+            tempdashdata?.[currentState]?.total?.confirmed -
+            (tempdashdata?.[currentState]?.total?.deceased +
+              tempdashdata?.[currentState]?.total?.recovered),
           delta: 0,
           cardClass: "cv-primary",
         },
         {
           label: "Recovered",
-          value: tempdashdata?.[currentState].total.recovered,
-          delta: tempdashdata?.[currentState].delta.recovered,
+          value: tempdashdata?.[currentState]?.total?.recovered,
+          delta: tempdashdata?.[currentState]?.delta?.recovered,
           cardClass: "cv-success",
         },
         {
           label: "Deceased",
-          value: tempdashdata?.[currentState].total.deceased,
-          delta: tempdashdata?.[currentState].delta.deceased,
+          value: tempdashdata?.[currentState]?.total?.deceased,
+          delta: tempdashdata?.[currentState]?.delta?.deceased,
           cardClass: "cv-warning",
         },
         {
           label: "Tested",
-          value: tempdashdata?.[currentState].total.tested,
-          delta: tempdashdata?.[currentState].delta7.tested,
+          value: tempdashdata?.[currentState]?.total?.tested,
+          delta: tempdashdata?.[currentState]?.delta7?.tested,
           cardClass: "",
         },
       ];
@@ -150,6 +150,7 @@ const Home = () => {
         data={states.states}
         onStateChange={(e) => {
           setCurrentState(e.value);
+          console.log(e)
         }}
         isLoading={statesLoading}
       ></DropDown>

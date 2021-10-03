@@ -1,5 +1,5 @@
 import React from 'react'
-import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { LineChart, Line, ResponsiveContainer, Tooltip } from "recharts";
 
 export const Chart = ({chart}) => {
     return (
@@ -12,6 +12,7 @@ export const Chart = ({chart}) => {
                 stroke={chart?.strokeColor}
                 strokeWidth={3}
               />
+                <Tooltip />
             </LineChart>
           </ResponsiveContainer>
     )
