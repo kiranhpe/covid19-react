@@ -1,6 +1,8 @@
 import React from 'react'
 import { FaArrowUp } from "react-icons/fa";
 import { Chart } from '../chart/chart';
+import './card.scss';
+
 export const Card = ({card, chart}) => {
     return (
         <div className={"cv-card " + card.cardClass}>

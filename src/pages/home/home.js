@@ -52,6 +52,12 @@ const Home = () => {
           delta: tempdashdata?.[currentState].delta.deceased,
           cardClass: "cv-warning",
         },
+        {
+          label: "Tested",
+          value: tempdashdata?.[currentState].total.tested,
+          delta: tempdashdata?.[currentState].delta7.tested,
+          cardClass: "",
+        },
       ];
 
       setCards(tempCards);
@@ -76,6 +82,9 @@ const Home = () => {
               : 0,
             deceased: jsonData[currentState].dates[item].delta7?.deceased
               ? jsonData[currentState].dates[item].delta7?.deceased
+              : 0,
+            tested: jsonData[currentState].dates[item].delta7?.tested
+              ? jsonData[currentState].dates[item].delta7?.tested
               : 0,
           });
         }
@@ -109,19 +118,26 @@ const Home = () => {
           }),
           strokeColor: "#FFB946",
         },
+        {
+          name: "tested",
+          data: chartData.map((x) => {
+            return { name: x.name, tested: x.tested };
+          }),
+          strokeColor: "#000",
+        },
       ];
 
       setCharts(tempCharts);
     });
   }, [currentState]);
 
-  const  fetchStates = () => {
-      let selectStatesFeed = statesConfig.map((v) => {
-        return { value: v.key, label: v.name };
-      });
-      setStates({ states: selectStatesFeed });
-      setStatesLoading(false);
-  }
+  const fetchStates = () => {
+    let selectStatesFeed = statesConfig.map((v) => {
+      return { value: v.key, label: v.name };
+    });
+    setStates({ states: selectStatesFeed });
+    setStatesLoading(false);
+  };
 
   const getActive = (confirmed = 0, recovered = 0, deceased = 0) => {
     return confirmed - (recovered + deceased);

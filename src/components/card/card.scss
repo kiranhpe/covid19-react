@@ -1,6 +1,20 @@
 
 @import '../../../public/assets/variables';
 
+.cv-alert {
+    color: $color-red !important;
+}
+.cv-warning {
+    color: $color-yellow !important;
+}
+.cv-primary {
+    color: $color-accent-blue !important;
+}
+.cv-success {
+    color: $color-green !important;
+}
+
+
 .cv-card {
     width: 100%;
     flex: 1;
@@ -24,11 +38,11 @@
         font-size: 24px;
     }
     .cv-count {
-        font-size: 32px;
+        font-size: 24px;
         font-weight: 600;
         .cv-delta {
-            font-size: 16px;
-            font-weight: 300;
+            font-size: 14px;
+            font-weight: 600;
             float: right;
         }
     }
@@ -44,7 +58,6 @@
     animation: fade-in 300ms ease forwards;
   
     @media screen and (max-width:$table-width) {
-        .cv-card{
             padding: 8px;
 
             .cv-label {
@@ -64,7 +77,6 @@
                 margin-top: 16px;
                 margin-left: 0;
             }
-        }
        
     }
     @for $x from 1 through 4 {
