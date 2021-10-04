@@ -24,12 +24,20 @@ export const statesConfig = [
     name: "Bihar",
   },
   {
-    key: "CH",
+    key: "CT",
     name: "Chhattisgarh",
+  },
+  {
+    key:"CH",
+    name:"Chandigarh"
   },
   {
     key: "DL",
     name: "Delhi",
+  },
+  {
+    key:"DN",
+    name:"Dadra and Diu"
   },
   {
     key: "GA",
@@ -62,6 +70,10 @@ export const statesConfig = [
   {
     key: "KL",
     name: "Kerala",
+  },
+  {
+    key:"LA",
+    name: "Ladhak"
   },
   {
     key: "LD",
@@ -126,6 +138,10 @@ export const statesConfig = [
   {
     key: "UP",
     name: "Uttar Pradesh",
+  },
+  {
+    key: "UT",
+    name: "Uttarakhand"
   },
   {
     key: "WB",

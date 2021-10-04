@@ -6,6 +6,7 @@ import { Card } from "../../components/card/card";
 import { getCovidDataAPI, getTimeSeriesAPI } from "../../constants/endpoints";
 import { DropDown } from "../../components/select/select";
 import { statesConfig } from "../../constants/states";
+import { Table } from "../../components/table/table";
 
 const Home = () => {
   const [cards, setCards] = useState(null);
@@ -144,10 +145,6 @@ const Home = () => {
     setStatesLoading(false);
   };
 
-  const getActive = (confirmed = 0, recovered = 0, deceased = 0) => {
-    return confirmed - (recovered + deceased);
-  };
-
   return (
     <div className="cv-home">
       <DropDown
@@ -155,7 +152,6 @@ const Home = () => {
         data={states.states}
         onStateChange={(e) => {
           setCurrentState(e.value);
-          console.log(e);
         }}
         isLoading={statesLoading}
       ></DropDown>
@@ -172,50 +168,53 @@ const Home = () => {
             })
           : null}
       </div>
-      <div className="cv-table">
-        <table>
-          <thead>
-            <tr>
-              <th>State</th>
-              <th>Confirmed</th>
-              <th>Active</th>
-              <th>Recovered</th>
-              <th>Deseased</th>
-            </tr>
-          </thead>
-          <tbody>
-            {states?.states?.map((x, i) => {
-              if (mainData && x.value !== "TT") {
-                return (
-                  <tr key={i}>
-                    <td className="cv-state-name">{x?.label}</td>
-                    <td>
-                      {mainData[x.value]?.total?.confirmed.toLocaleString("hi")}
-                    </td>
-                    <td>
-                      {(
-                        mainData[x.value]?.total?.confirmed -
-                        (mainData[x.value]?.total?.recovered +
-                          mainData[x.value]?.total?.deceased)
-                      ).toLocaleString("hi")}
-                    </td>
-                    <td>
-                      {mainData[x.value]?.total?.recovered.toLocaleString("hi")}
-                    </td>
-                    <td>
-                      {mainData[x.value]?.total?.deceased.toLocaleString("hi")}
-                    </td>
-                  </tr>
-                );
-              } else {
-                return null;
-              }
-            })}
-          </tbody>
-        </table>
-      </div>
+      {mainData && (
+        <Table
+          theaders={[
+            "State",
+            "Confirmed",
+            "Active",
+            "Recovered",
+            "Deseased",
+            "Tested",
+          ]}
+          tbody={extractDataForTable(mainData, states.states)}
+          formatter={"hi"}
+        ></Table>
+      )}
     </div>
   );
+};
+
+const extractDataForTable = (rawData = [], satatesOrDistricts) => {
+  let meanigfulData = [];
+  Object.keys(rawData).forEach((item, index) => {
+    if (item !== "TT")
+      meanigfulData.push({
+        stateName: satatesOrDistricts.find((x) => x.value === item)?.label,
+        confirm: rawData[item].total?.confirmed
+          ? rawData[item].total?.confirmed
+          : 0,
+        active: getActive(
+          rawData[item].total?.confirmed,
+          rawData[item].total?.recovered,
+          rawData[item].total?.deceased
+        ),
+        recovered: rawData[item].total?.recovered
+          ? rawData[item].total?.recovered
+          : 0,
+        deceased: rawData[item].total?.deceased
+          ? rawData[item].total?.deceased
+          : 0,
+        tested: rawData[item].total?.tested ? rawData[item].total?.tested : 0,
+      });
+  });
+
+  return meanigfulData;
+};
+
+const getActive = (confirmed = 0, recovered = 0, deceased = 0) => {
+  return confirmed - (recovered + deceased);
 };
 
 export default Home;
