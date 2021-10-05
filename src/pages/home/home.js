@@ -16,6 +16,7 @@ const Home = () => {
   });
 
   const [mainData, setMainData] = useState(null);
+  const [tableData, setTableData] = useState(null);
   const [timeSeries, setTimeSeries] = useState(null);
   const [statesLoading, setStatesLoading] = useState(true);
 
@@ -143,7 +144,69 @@ const Home = () => {
     });
     setStates({ states: selectStatesFeed });
     setStatesLoading(false);
+    //setTableData(extractDataForTable(mainData, states.states));
   };
+
+  const extractDataForTable = (rawData = [], satatesOrDistricts) => {
+    let meanigfulData = [];
+    Object.keys(rawData).forEach((item, index) => {
+      if (currentState ==="TT") {
+        meanigfulData.push({
+          stateName: satatesOrDistricts.find((x) => x.value === item)?.label,
+          confirm: rawData[item].total?.confirmed
+            ? rawData[item].total?.confirmed
+            : 0,
+          active: getActive(
+            rawData[item].total?.confirmed,
+            rawData[item].total?.recovered,
+            rawData[item].total?.deceased
+          ),
+          recovered: rawData[item].total?.recovered
+            ? rawData[item].total?.recovered
+            : 0,
+          deceased: rawData[item].total?.deceased
+            ? rawData[item].total?.deceased
+            : 0,
+          tested: rawData[item].total?.tested ? rawData[item].total?.tested : 0,
+        });
+      } else {
+       if(item === currentState)
+        Object.keys(rawData[item]?.districts).forEach((district, districtIndex) => {
+          meanigfulData.push({
+            districtName: district,
+            confirm: rawData[item].districts[district].total?.confirmed
+              ? rawData[item].districts[district].total?.confirmed
+              : 0,
+            active: getActive(
+              rawData[item].districts[district].total?.confirmed,
+              rawData[item].districts[district].total?.recovered,
+              rawData[item].districts[district].total?.deceased
+            ),
+            recovered: rawData[item].districts[district].total?.recovered
+              ? rawData[item].districts[district].total?.recovered
+              : 0,
+            deceased: rawData[item].districts[district].total?.deceased
+              ? rawData[item].districts[district].total?.deceased
+              : 0,
+            tested: rawData[item].districts[district].total?.tested ? rawData[item].districts[district].total?.tested : 0,
+          });
+        })
+      }
+        
+    });
+    
+    return meanigfulData;
+  };
+  
+  const getActive = (confirmed = 0, recovered = 0, deceased = 0) => {
+    return confirmed - (recovered + deceased);
+  };
+
+  useEffect(()=>{
+    if(mainData && states.states.length>0) {
+      setTableData(extractDataForTable(mainData, states.states));
+    }
+  },[currentState,mainData])
 
   return (
     <div className="cv-home">
@@ -171,14 +234,14 @@ const Home = () => {
       {mainData && (
         <Table
           theaders={[
-            "State",
+            currentState==='TT'?'State':'District',
             "Confirmed",
             "Active",
             "Recovered",
             "Deseased",
             "Tested",
           ]}
-          tbody={extractDataForTable(mainData, states.states)}
+          tbody={tableData}
           formatter={"hi"}
         ></Table>
       )}
@@ -186,35 +249,6 @@ const Home = () => {
   );
 };
 
-const extractDataForTable = (rawData = [], satatesOrDistricts) => {
-  let meanigfulData = [];
-  Object.keys(rawData).forEach((item, index) => {
-    if (item !== "TT")
-      meanigfulData.push({
-        stateName: satatesOrDistricts.find((x) => x.value === item)?.label,
-        confirm: rawData[item].total?.confirmed
-          ? rawData[item].total?.confirmed
-          : 0,
-        active: getActive(
-          rawData[item].total?.confirmed,
-          rawData[item].total?.recovered,
-          rawData[item].total?.deceased
-        ),
-        recovered: rawData[item].total?.recovered
-          ? rawData[item].total?.recovered
-          : 0,
-        deceased: rawData[item].total?.deceased
-          ? rawData[item].total?.deceased
-          : 0,
-        tested: rawData[item].total?.tested ? rawData[item].total?.tested : 0,
-      });
-  });
 
-  return meanigfulData;
-};
-
-const getActive = (confirmed = 0, recovered = 0, deceased = 0) => {
-  return confirmed - (recovered + deceased);
-};
 
 export default Home;

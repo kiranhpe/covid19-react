@@ -2,20 +2,20 @@ import React from "react";
 import './table.scss';
 
 export const Table = ({ theaders, tbody, formatter }) => {
-  return (
+  return ( 
     <div className="cv-table">
       <table>
         <thead>
           <tr>
-            {theaders.map((x) => {
-              return <th>{x}</th>;
+            {theaders.map((x,i) => {
+              return <th key={i}>{x}</th>;
             })}
           </tr>
         </thead>
         <tbody>
-          {tbody.map((x) => {
+          {tbody?.map((x,i) => {
             return (
-              <tr>
+              <tr key={i}>
                 {getValuesFromObject(x).map((y) => {
                   return <td>{y.toLocaleString(formatter)}</td>;
                 })}

@@ -6,16 +6,16 @@ import './card.scss';
 export const Card = ({card, chart}) => {
     return (
         <div className={"cv-card " + card.cardClass}>
-        <span className="cv-label">{card?.label}</span>
-        <span className="cv-count">
-          {card?.value?.toLocaleString('hi')}
-          {card?.delta !== 0 && (
-            <span className="cv-delta">
+        <p className="cv-label">{card?.label}</p>
+        <p className="cv-count">
+          {card?.value?.toLocaleString('hi')} 
+        </p>
+        {card?.delta !== 0 && (
+            <p className="cv-delta">
               <FaArrowUp className="cv-icon" />
               {card?.delta?.toLocaleString('hi')}
-            </span>
+            </p>
           )}
-        </span>
         <div className="cv-chart-container">
           <Chart chart={chart}></Chart>
         </div>

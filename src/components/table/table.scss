@@ -23,10 +23,13 @@
                 text-align: left;
                 padding: 12px 8px;
             }
-            @for $x from 1 through 32 {
+            @for $x from 1 through 100 {
                 &:nth-child(#{$x}) {
                   animation-delay: 100ms * ($x - 1);
                 }
+              }
+              &:nth-child(even) {
+                  background-color: rgba(194, 207, 224, 0.5);;
               }
         }
 
