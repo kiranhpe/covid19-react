@@ -144,13 +144,12 @@ const Home = () => {
     });
     setStates({ states: selectStatesFeed });
     setStatesLoading(false);
-    //setTableData(extractDataForTable(mainData, states.states));
   };
 
-  const extractDataForTable = (rawData = [], satatesOrDistricts) => {
+  const extractDataForTable = (satatesOrDistricts, rawData = []) => {
     let meanigfulData = [];
     Object.keys(rawData).forEach((item, index) => {
-      if (currentState ==="TT") {
+      if (currentState === "TT") {
         meanigfulData.push({
           stateName: satatesOrDistricts.find((x) => x.value === item)?.label,
           confirm: rawData[item].total?.confirmed
@@ -170,43 +169,46 @@ const Home = () => {
           tested: rawData[item].total?.tested ? rawData[item].total?.tested : 0,
         });
       } else {
-       if(item === currentState)
-        Object.keys(rawData[item]?.districts).forEach((district, districtIndex) => {
-          meanigfulData.push({
-            districtName: district,
-            confirm: rawData[item].districts[district].total?.confirmed
-              ? rawData[item].districts[district].total?.confirmed
-              : 0,
-            active: getActive(
-              rawData[item].districts[district].total?.confirmed,
-              rawData[item].districts[district].total?.recovered,
-              rawData[item].districts[district].total?.deceased
-            ),
-            recovered: rawData[item].districts[district].total?.recovered
-              ? rawData[item].districts[district].total?.recovered
-              : 0,
-            deceased: rawData[item].districts[district].total?.deceased
-              ? rawData[item].districts[district].total?.deceased
-              : 0,
-            tested: rawData[item].districts[district].total?.tested ? rawData[item].districts[district].total?.tested : 0,
-          });
-        })
+        if (item === currentState)
+          Object.keys(rawData[item]?.districts).forEach(
+            (district, districtIndex) => {
+              meanigfulData.push({
+                districtName: district,
+                confirm: rawData[item].districts[district].total?.confirmed
+                  ? rawData[item].districts[district].total?.confirmed
+                  : 0,
+                active: getActive(
+                  rawData[item].districts[district].total?.confirmed,
+                  rawData[item].districts[district].total?.recovered,
+                  rawData[item].districts[district].total?.deceased
+                ),
+                recovered: rawData[item].districts[district].total?.recovered
+                  ? rawData[item].districts[district].total?.recovered
+                  : 0,
+                deceased: rawData[item].districts[district].total?.deceased
+                  ? rawData[item].districts[district].total?.deceased
+                  : 0,
+                tested: rawData[item].districts[district].total?.tested
+                  ? rawData[item].districts[district].total?.tested
+                  : 0,
+              });
+            }
+          );
       }
-        
     });
-    
+
     return meanigfulData;
   };
-  
+
   const getActive = (confirmed = 0, recovered = 0, deceased = 0) => {
     return confirmed - (recovered + deceased);
   };
 
-  useEffect(()=>{
-    if(mainData && states.states.length>0) {
-      setTableData(extractDataForTable(mainData, states.states));
+  useEffect(() => {
+    if (mainData && states.states.length > 0) {
+      setTableData(extractDataForTable(states.states, mainData));
     }
-  },[currentState,mainData])
+  }, [currentState, mainData]);
 
   return (
     <div className="cv-home">
@@ -234,7 +236,7 @@ const Home = () => {
       {mainData && (
         <Table
           theaders={[
-            currentState==='TT'?'State':'District',
+            currentState === "TT" ? "State" : "District",
             "Confirmed",
             "Active",
             "Recovered",
@@ -248,7 +250,5 @@ const Home = () => {
     </div>
   );
 };
-
-
 
 export default Home;
