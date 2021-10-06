@@ -2,11 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import "./home.scss";
-import { Card } from "../../components/card/card";
 import { getCovidDataAPI, getTimeSeriesAPI } from "../../constants/endpoints";
 import { DropDown } from "../../components/select/select";
 import { statesConfig } from "../../constants/states";
 import { Table } from "../../components/table/table";
+import { StatsCard } from "../../components/stats-card/stats-card";
 
 const Home = () => {
   const [cards, setCards] = useState(null);
@@ -64,6 +64,18 @@ const Home = () => {
           delta: tempdashdata?.[currentState]?.delta7?.tested,
           cardClass: "cv-info",
         },
+        {
+          label: "Partially vaccinated",
+          value: tempdashdata?.[currentState]?.total?.vaccinated1,
+          delta: tempdashdata?.[currentState]?.delta7?.vaccinated1,
+          cardClass: "cv-success",
+        },
+        {
+          label: "Fully vaccinated",
+          value: tempdashdata?.[currentState]?.total?.vaccinated2,
+          delta: tempdashdata?.[currentState]?.delta7?.vaccinated2,
+          cardClass: "cv-primary",
+        },
       ];
 
       setCards(tempCards);
@@ -92,6 +104,12 @@ const Home = () => {
               : 0,
             tested: jsonData[currentState].dates[item].delta7?.tested
               ? jsonData[currentState].dates[item].delta7?.tested
+              : 0,
+            dose_1: jsonData[currentState].dates[item].delta7?.vaccinated1
+              ? jsonData[currentState].dates[item].delta7?.vaccinated1
+              : 0,
+            dose_2: jsonData[currentState].dates[item].delta7?.vaccinated2
+              ? jsonData[currentState].dates[item].delta7?.vaccinated2
               : 0,
           });
         }
@@ -131,6 +149,20 @@ const Home = () => {
             return { name: x.name, tested: x.tested };
           }),
           strokeColor: "#885AF8",
+        },
+        {
+          name: "dose_1",
+          data: chartData.map((x) => {
+            return { name: x.name, dose_1: x.dose_1 };
+          }),
+          strokeColor: "#2ED47A",
+        },
+        {
+          name: "dose_2",
+          data: chartData.map((x) => {
+            return { name: x.name, dose_2: x.dose_2 };
+          }),
+          strokeColor: "#109CF1",
         },
       ];
 
@@ -224,28 +256,32 @@ const Home = () => {
         {cards
           ? cards.map((x, i) => {
               return (
-                <Card
-                  card={cards ? cards[i] : null}
-                  chart={charts ? charts[i] : null}
-                  key={i}
-                ></Card>
+                <div className="cv-stats-card">
+                  <StatsCard
+                    card={cards ? cards[i] : null}
+                    chart={charts ? charts[i] : null}
+                    key={i}
+                  ></StatsCard>
+                </div>
               );
             })
           : null}
       </div>
       {mainData && (
-        <Table
-          theaders={[
-            currentState === "TT" ? "State" : "District",
-            "Confirmed",
-            "Active",
-            "Recovered",
-            "Deseased",
-            "Tested",
-          ]}
-          tbody={tableData}
-          formatter={"hi"}
-        ></Table>
+        <div className="cv-stats-table">
+          <Table
+            theaders={[
+              currentState === "TT" ? "State" : "District",
+              "Confirmed",
+              "Active",
+              "Recovered",
+              "Deseased",
+              "Tested",
+            ]}
+            tbody={tableData}
+            formatter={"hi"}
+          ></Table>
+        </div>
       )}
     </div>
   );

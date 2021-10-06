@@ -6,11 +6,30 @@
         display: flex;
         justify-content: space-between;
 
+        .cv-stats-card {
+            width: 100%;
+            &:not(:first-child) {
+                margin-left: 12px;
+            }
+
+            @media screen and (max-width:$table-width) {
+                
+            &:not(:first-child) {
+                margin-top: 16px;
+                margin-left: 0;
+            }
+               
+            }
+
+        }
         @media screen and (max-width:$table-width) {
             flex-direction: column;
-
            
         }
+    }
+
+    .cv-stats-table {
+        margin-top: 12px;
     }
    
 }

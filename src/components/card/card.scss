@@ -1,24 +1,6 @@
 
 @import '../../../public/assets/variables';
 
-.cv-alert {
-    color: $color-red !important;
-}
-.cv-warning {
-    color: $color-yellow !important;
-}
-.cv-primary {
-    color: $color-accent-blue !important;
-}
-.cv-success {
-    color: $color-green !important;
-}
-
-.cv-info {
-    color: $color-purple !important;
-}
-
-
 .cv-card {
     width: 100%;
     flex: 1;
@@ -26,74 +8,11 @@
     padding: 12px;
     box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.06);
     background-color: $color-white;
-    display: flex;
-    flex-direction: column;
-    .cv-chart-container {
-        width: 100%;
-        height: 70px;
-        margin-top: auto;
-    }
-    .cv-last-updated {
-        display: none; //undo in future
-        font-size: 12px;
-        text-align: right;
-    }
-    .cv-label {
-        font-weight: 600;
-        font-size: 24px;
-    }
-    .cv-count-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-    .cv-count {
-        font-size: 24px;
-        font-weight: 600;
-    }
-    .cv-delta {
-        font-size: 14px;
-        font-weight: 600;
-        margin-top: 8px;
-    }
-    .cv-icon {
-        margin-right: 8px;
-    }
-
-    &:not(:first-child) {
-        margin-left: 24px;
-    }
-
     opacity: 0;
     animation: fade-in 300ms ease forwards;
   
     @media screen and (max-width:$table-width) {
             padding: 8px;
-
-            .cv-label {
-                font-size: large;
-            }
-            .cv-count-container {
-                flex-direction: row;
-            }
-
-            .cv-count {
-                font-size: medium;
-            }
-            .cv-delta {
-                font-size: medium;
-                margin-left: auto;
-                margin-top: 0;
-            }
-            .cv-chart-container {
-                height: 60px;
-            }
-            
-            &:not(:first-child) {
-                margin-top: 16px;
-                margin-left: 0;
-            }
-       
     }
     @for $x from 1 through 5 {
       &:nth-child(#{$x}) {
