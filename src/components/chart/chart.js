@@ -5,6 +5,7 @@ export const Chart = ({chart}) => {
     return (
         <ResponsiveContainer>
             <LineChart data={chart?.data}>
+              <XAxis dataKey={chart?.name} tick={false} axisLine={false}/>
               <Line
                 dot={false}
                 type="basis"
