@@ -62,7 +62,7 @@ const Home = () => {
           label: "Tested",
           value: tempdashdata?.[currentState]?.total?.tested,
           delta: tempdashdata?.[currentState]?.delta7?.tested,
-          cardClass: "",
+          cardClass: "cv-info",
         },
       ];
 
@@ -130,7 +130,7 @@ const Home = () => {
           data: chartData.map((x) => {
             return { name: x.name, tested: x.tested };
           }),
-          strokeColor: "#000",
+          strokeColor: "#885AF8",
         },
       ];
 

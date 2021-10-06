@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
+$bg-dark-mode: #000;
+$grey-dark-mode: rgba(66, 66, 66, 0.712);
+$white-text: #fff;
+$primary:rgb(0, 132, 255);
+
 * {
   margin: 0;
   padding: 0;
@@ -9,3 +14,30 @@
 body {
   background-color: #E5E5E5;
 }
+
+body.dark-mode {
+  background-color: $bg-dark-mode;
+  color: $white-text;
+  .cv-toolbar {
+    background-color: $grey-dark-mode;
+    box-shadow: none;
+  }
+  .cv-card {
+    background-color: $grey-dark-mode;
+    box-shadow: none;
+  }
+  .cv-table {
+    background-color: $grey-dark-mode;
+    box-shadow: none;
+    td,th {
+      color: #fff;
+    }
+
+    tr{
+      &:nth-child(even) {
+        background-color: #423F3E;
+      }
+    }
+  }
+}
+
