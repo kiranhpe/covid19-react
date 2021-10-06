@@ -1,7 +1,7 @@
 
 @import '../../../public/assets/_variables';
 .cv-home {
-    padding: 34px;
+    padding: 12px;
     .cv-row {
         display: flex;
         justify-content: space-between;
@@ -13,9 +13,6 @@
         }
     }
    
-    @media screen and (max-width:$table-width) {
-        padding: 12px;
-    }
 }
 
 @keyframes fade-in {

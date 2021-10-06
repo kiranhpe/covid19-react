@@ -17,7 +17,10 @@
             padding: 12px;
             opacity: 0;
             animation: fade-in 300ms ease forwards;
-
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(194, 207, 224, 0.5);
+            }
             th,td {
                 color: $color-dark-blue;
                 text-align: left;
@@ -29,7 +32,7 @@
                 }
               }
               &:nth-child(even) {
-                  background-color: rgba(194, 207, 224, 0.5);;
+                  background-color: rgba(194, 207, 224, 0.5);
               }
         }
 
