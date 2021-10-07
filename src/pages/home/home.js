@@ -122,7 +122,7 @@ const Home = () => {
         },
         {
           name: "Dose2",
-          value: tempdashdata?.[currentState]?.delta7?.vaccinated2,
+          value: tempdashdata?.[currentState]?.total?.vaccinated2,
         },
       ]);
       setPieCharts(pieChartsData);
