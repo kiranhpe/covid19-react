@@ -14,7 +14,7 @@ export const CVPieChart = ({ pieData }) => {
         paddingAngle={5}
         dataKey="value"
       >
-        {data.map((entry, index) => (
+        {pieData.map((entry, index) => (
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}
       </Pie>
