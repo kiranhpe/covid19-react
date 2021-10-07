@@ -10,8 +10,7 @@ export const CVPieChart = () => {
       ];
       const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
     return (
-        <ResponsiveContainer>
-        <PieChart height={150} width={150}>
+        <PieChart height={200} width={200}>
         <Pie
           data={data}
           innerRadius={60}
@@ -25,6 +24,5 @@ export const CVPieChart = () => {
           ))}
         </Pie>
       </PieChart>
-      </ResponsiveContainer>
     )
 }

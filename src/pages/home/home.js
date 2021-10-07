@@ -319,10 +319,7 @@ const Home = () => {
         {[1, 2, 3, 4].map((x, i) => {
           return (
             <div className="cv-pie-chart-container">
-              {" "}
-              <Card>
-                <CVPieChart></CVPieChart>
-              </Card>
+                <CVPieChart className="pie-card"></CVPieChart>
             </div>
           );
         })}

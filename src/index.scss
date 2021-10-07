@@ -22,7 +22,7 @@ body.dark-mode {
     background-color: $grey-dark-mode;
     box-shadow: none;
   }
-  .cv-card {
+  .cv-card,.cv-pie-chart-container {
     background-color: $grey-dark-mode !important;
     box-shadow: none;
   }
