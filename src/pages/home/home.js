@@ -110,6 +110,10 @@ const Home = () => {
           name: "Deceased",
           value: tempdashdata?.[currentState]?.total?.deceased,
         },
+        {
+          name: "Others",
+          value: tempdashdata?.[currentState]?.total?.other,
+        },
       ]);
       pieChartsData.push([
         {
