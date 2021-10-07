@@ -76,6 +76,16 @@ const Home = () => {
           delta: tempdashdata?.[currentState]?.delta7?.vaccinated2,
           cardClass: "cv-primary",
         },
+        {
+          label: "Vaccinated",
+          value:
+            tempdashdata?.[currentState]?.total?.vaccinated2 +
+            tempdashdata?.[currentState]?.total?.vaccinated1,
+          delta:
+            tempdashdata?.[currentState]?.delta7?.vaccinated2 +
+            tempdashdata?.[currentState]?.delta7?.vaccinated2,
+          cardClass: "cv-info",
+        },
       ];
 
       setCards(tempCards);
@@ -111,6 +121,12 @@ const Home = () => {
             dose_2: jsonData[currentState].dates[item].delta7?.vaccinated2
               ? jsonData[currentState].dates[item].delta7?.vaccinated2
               : 0,
+            vaccine:
+              jsonData[currentState].dates[item].delta7?.vaccinated2 +
+              jsonData[currentState].dates[item].delta7?.vaccinated1
+                ? jsonData[currentState].dates[item].delta7?.vaccinated2 +
+                  jsonData[currentState].dates[item].delta7?.vaccinated1
+                : 0,
           });
         }
       });
@@ -163,6 +179,13 @@ const Home = () => {
             return { name: x.name, dose_2: x.dose_2 };
           }),
           strokeColor: "#109CF1",
+        },
+        {
+          name: "vaccine",
+          data: chartData.map((x) => {
+            return { name: x.name, vaccine: x.vaccine };
+          }),
+          strokeColor: "#885AF8",
         },
       ];
 
@@ -255,15 +278,38 @@ const Home = () => {
       <div className="cv-row">
         {cards
           ? cards.map((x, i) => {
-              return (
-                <div className="cv-stats-card">
-                  <StatsCard
-                    card={cards ? cards[i] : null}
-                    chart={charts ? charts[i] : null}
-                    key={i}
-                  ></StatsCard>
-                </div>
-              );
+              if (i < 4) {
+                return (
+                  <div className="cv-stats-card">
+                    <StatsCard
+                      card={cards ? cards[i] : null}
+                      chart={charts ? charts[i] : null}
+                      key={i}
+                    ></StatsCard>
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })
+          : null}
+      </div>
+      <div className="cv-row">
+        {cards
+          ? cards.map((x, i) => {
+              if (i > 3) {
+                return (
+                  <div className="cv-stats-card">
+                    <StatsCard
+                      card={cards ? cards[i] : null}
+                      chart={charts ? charts[i] : null}
+                      key={i}
+                    ></StatsCard>
+                  </div>
+                );
+              } else {
+                return null;
+              }
             })
           : null}
       </div>

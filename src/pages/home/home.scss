@@ -5,6 +5,9 @@
     .cv-row {
         display: flex;
         justify-content: space-between;
+        &:not(:first-child) {
+            margin-top: 12px;
+        }
 
         .cv-stats-card {
             width: 100%;
