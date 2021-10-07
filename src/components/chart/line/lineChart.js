@@ -1,7 +1,7 @@
 import React from 'react'
 import { LineChart, Line, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 
-export const Chart = ({chart}) => {
+export const CVLineChart = ({chart}) => {
     return (
         <ResponsiveContainer>
             <LineChart data={chart?.data}>

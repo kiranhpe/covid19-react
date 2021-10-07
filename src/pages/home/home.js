@@ -7,6 +7,8 @@ import { DropDown } from "../../components/select/select";
 import { statesConfig } from "../../constants/states";
 import { Table } from "../../components/table/table";
 import { StatsCard } from "../../components/stats-card/stats-card";
+import { CVPieChart } from "../../components/chart/pie/pieChart";
+import { Card } from "../../components/card/card";
 
 const Home = () => {
   const [cards, setCards] = useState(null);
@@ -312,6 +314,18 @@ const Home = () => {
               }
             })
           : null}
+      </div>
+      <div className="cv-row">
+        {[1, 2, 3, 4].map((x, i) => {
+          return (
+            <div className="cv-pie-chart-container">
+              {" "}
+              <Card>
+                <CVPieChart></CVPieChart>
+              </Card>
+            </div>
+          );
+        })}
       </div>
       {mainData && (
         <div className="cv-stats-table">

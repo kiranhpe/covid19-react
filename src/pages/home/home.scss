@@ -25,6 +25,23 @@
             }
 
         }
+
+        .cv-pie-chart-container {
+           width: calc(100% / 4);
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           &:not(:first-child) {
+               margin-left: 12px;
+           }
+           @media screen and (max-width:$table-width) {
+            width: 100%;
+            &:not(:first-child) {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+        }
+        }
         @media screen and (max-width:$table-width) {
             flex-direction: column;
            
