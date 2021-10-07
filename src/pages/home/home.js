@@ -8,11 +8,11 @@ import { statesConfig } from "../../constants/states";
 import { Table } from "../../components/table/table";
 import { StatsCard } from "../../components/stats-card/stats-card";
 import { CVPieChart } from "../../components/chart/pie/pieChart";
-import { Card } from "../../components/card/card";
 
 const Home = () => {
   const [cards, setCards] = useState(null);
   const [charts, setCharts] = useState(null);
+  const [pieCharts, setPieCharts] = useState(null);
   const [states, setStates] = useState({
     states: [],
   });
@@ -89,7 +89,39 @@ const Home = () => {
           cardClass: "cv-info",
         },
       ];
-
+      let pieChartsData = [];
+      pieChartsData.push([
+        {
+          name: "Confirmed",
+          value: tempdashdata?.[currentState]?.total?.confirmed,
+        },
+        {
+          name: "Active",
+          value:
+            tempdashdata?.[currentState]?.total?.confirmed -
+            (tempdashdata?.[currentState]?.total?.deceased +
+              tempdashdata?.[currentState]?.total?.recovered),
+        },
+        {
+          name: "Recovered",
+          value: tempdashdata?.[currentState]?.total?.recovered,
+        },
+        {
+          name: "Deceased",
+          value: tempdashdata?.[currentState]?.total?.deceased,
+        },
+      ]);
+      pieChartsData.push([
+        {
+          name: "Dose1",
+          value: tempdashdata?.[currentState]?.total?.vaccinated1,
+        },
+        {
+          name: "Dose2",
+          value: tempdashdata?.[currentState]?.delta7?.vaccinated2,
+        },
+      ]);
+      setPieCharts(pieChartsData);
       setCards(tempCards);
     });
     axios.get(getTimeSeriesAPI()).then((timeSeriesResponse) => {
@@ -316,13 +348,14 @@ const Home = () => {
           : null}
       </div>
       <div className="cv-row">
-        {[1, 2, 3, 4].map((x, i) => {
-          return (
-            <div className="cv-pie-chart-container">
-                <CVPieChart className="pie-card"></CVPieChart>
-            </div>
-          );
-        })}
+        {pieCharts &&
+          pieCharts.map((item, index) => {
+            return (
+              <div className="cv-pie-chart-container">
+                <CVPieChart pieData={item} className="pie-card"></CVPieChart>
+              </div>
+            );
+          })}
       </div>
       {mainData && (
         <div className="cv-stats-table">

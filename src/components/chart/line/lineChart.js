@@ -1,5 +1,5 @@
 import React from 'react'
-import { LineChart, Line, ResponsiveContainer, Tooltip, XAxis } from "recharts";
+import { LineChart, Line, ResponsiveContainer, Tooltip } from "recharts";
 
 export const CVLineChart = ({chart}) => {
     return (
