@@ -1,5 +1,5 @@
 import "./App.scss";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, HashRouter } from "react-router-dom";
 
 import { Header } from "./components/header/header";
 import Home from "./pages/home/home";
@@ -37,15 +37,15 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
+      <HashRouter>
         <Header />
-        <Switch basename="/covid19-react">
+        <Switch>
           <Route path="/" exact component={Home} />
           <Route path='/vaccination' component={Vaccination} />
           <Route path="*" component={Home}>
           </Route>
         </Switch>
-      </Router>
+      </HashRouter>
     </div>
   );
 }
