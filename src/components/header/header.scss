@@ -12,13 +12,43 @@
         font-weight: 600;
         color: $color-accent-blue;
         margin: 0;
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
         @media screen and (max-width:$table-width) {
             margin-left: 0;
         }
     }
 
-    .cv-switch {
+    .right-side {
         margin-left: auto;
+        display: flex;
+        align-items: center;
+        .links-container {
+            margin-right: 36px;
+            list-style: none;
+            li {
+                a {
+                    color: inherit;
+                    text-decoration: none;
+                    span {
+                        font-size: medium;
+                        color: inherit;
+                        font-weight: 600;
+
+                    }
+                }
+
+                &:hover {
+                    color: $color-accent-blue;
+                }
+            }
+            @media screen and (max-width:$table-width) {
+                margin-right: 12px;
+                
+            }
+        }
     }
     @media screen and (max-width:$table-width) {
         padding: 12px;

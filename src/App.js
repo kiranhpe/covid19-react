@@ -1,7 +1,9 @@
-import axios from 'axios';
-import './App.scss';
-import { Header } from './components/header/header';
-import Home from './pages/home/home';
+import "./App.scss";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import { Header } from "./components/header/header";
+import Home from "./pages/home/home";
+import { Vaccination } from "./pages/vaccination/vaccination";
 
 function App() {
   // axios.interceptors.request.use(function (config) {
@@ -9,7 +11,7 @@ function App() {
   //   // spinning start to show
   //   // UPDATE: Add this code to show global loading indicator
   //   // document.body.classList.add('loading-indicator');
-  
+
   //   // const token = window.localStorage.token;
   //   // if (token) {
   //   //    config.headers.Authorization = `token ${token}`
@@ -20,13 +22,13 @@ function App() {
   // }, function (error) {
   //   return Promise.reject(error);
   // });
-  
+
   // axios.interceptors.response.use(function (response) {
-  
+
   //   // spinning hide
   //   // UPDATE: Add this code to hide global loading indicator
   //  // document.body.classList.remove('loading-indicator');
-  
+
   //   console.log('request done')
   //   return response;
   // }, function (error) {
@@ -35,8 +37,14 @@ function App() {
 
   return (
     <div className="App">
-      <Header/>
-      <Home></Home>
+      <Router>
+        <Header />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path='/vaccination' component={Vaccination} />
+          {/* <Route path='/products' component={Products} /> */}
+        </Switch>
+      </Router>
     </div>
   );
 }

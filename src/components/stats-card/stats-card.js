@@ -4,7 +4,7 @@ import { Card } from "../card/card";
 import { CVLineChart } from "../chart/line/lineChart";
 import "./stats-card.scss";
 
-export const StatsCard = ({card, chart}) => {
+export const StatsCard = ({ card, chart }) => {
   return (
     <Card>
       <div className={"cv-stats-card " + card.cardClass}>
@@ -18,10 +18,11 @@ export const StatsCard = ({card, chart}) => {
             </p>
           )}
         </div>
-
-        <div className="cv-chart-container">
-          <CVLineChart chart={chart}></CVLineChart>
-        </div>
+        {chart && (
+          <div className="cv-chart-container">
+            <CVLineChart chart={chart}></CVLineChart>
+          </div>
+        )}
       </div>
     </Card>
   );

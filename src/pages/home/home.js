@@ -304,7 +304,7 @@ const Home = () => {
   }, [currentState, mainData]);
 
   return (
-    <div className="cv-home">
+    <div className="cv-main-container">
       <DropDown
         placeholder="State"
         data={states.states}
