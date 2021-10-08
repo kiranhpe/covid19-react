@@ -42,7 +42,9 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path='/vaccination' component={Vaccination} />
-          {/* <Route path='/products' component={Products} /> */}
+          <Route path="*" component={Home}>
+            
+          </Route>
         </Switch>
       </Router>
     </div>
