@@ -39,11 +39,10 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-        <Switch>
+        <Switch basename="/covid19-react">
           <Route path="/" exact component={Home} />
           <Route path='/vaccination' component={Vaccination} />
           <Route path="*" component={Home}>
-            
           </Route>
         </Switch>
       </Router>
