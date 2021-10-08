@@ -7,7 +7,7 @@ export const CVPieChart = ({ pieData, title }) => {
   return (
     <div className="cv-pie-container">
       <b>{title}</b>
-      <PieChart height={300} width={400}>
+      <PieChart height={250} width={350}>
         <Pie
           data={pieData}
           innerRadius={60}

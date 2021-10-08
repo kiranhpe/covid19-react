@@ -16,6 +16,7 @@ export const Vaccination = () => {
         const response = responseData.data;
         setPublicReports(response);
         const vaccination = response?.topBlock?.vaccination;
+        const vaccinationByAge = response?.vaccinationByAge;
         let cardsData = [];
         cardsData.push(
           ...[
@@ -103,6 +104,14 @@ export const Vaccination = () => {
                 { name: "Others", value: vaccination?.others },
               ],
             },
+            {
+              title: "Vaccination by Age",
+              data: [
+                { name: "Above60", value: vaccinationByAge?.above_60 },
+                { name: "18-45", value: vaccinationByAge?.vac_18_45 },
+                { name: "45-60", value: vaccinationByAge?.vac_45_60 },
+              ],
+            },
           ]
         );
 
@@ -150,7 +159,11 @@ export const Vaccination = () => {
           pieCharts.map((item, index) => {
             return (
               <div className="cv-pie-chart-container">
-                <CVPieChart pieData={item.data} title={item.title}className="pie-card"></CVPieChart>
+                <CVPieChart
+                  pieData={item.data}
+                  title={item.title}
+                  className="pie-card"
+                ></CVPieChart>
               </div>
             );
           })}
