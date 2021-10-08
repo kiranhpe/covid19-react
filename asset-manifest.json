@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/covid19-react/covid19-react/static/css/main.111f8ddb.chunk.css",
-    "main.js": "/covid19-react/covid19-react/static/js/main.e2b4b6dc.chunk.js",
-    "main.js.map": "/covid19-react/covid19-react/static/js/main.e2b4b6dc.chunk.js.map",
-    "runtime-main.js": "/covid19-react/covid19-react/static/js/runtime-main.e975c3e4.js",
-    "runtime-main.js.map": "/covid19-react/covid19-react/static/js/runtime-main.e975c3e4.js.map",
-    "static/js/2.71570e2a.chunk.js": "/covid19-react/covid19-react/static/js/2.71570e2a.chunk.js",
-    "static/js/2.71570e2a.chunk.js.map": "/covid19-react/covid19-react/static/js/2.71570e2a.chunk.js.map",
-    "static/js/3.b613d66d.chunk.js": "/covid19-react/covid19-react/static/js/3.b613d66d.chunk.js",
-    "static/js/3.b613d66d.chunk.js.map": "/covid19-react/covid19-react/static/js/3.b613d66d.chunk.js.map",
-    "index.html": "/covid19-react/covid19-react/index.html",
-    "static/css/main.111f8ddb.chunk.css.map": "/covid19-react/covid19-react/static/css/main.111f8ddb.chunk.css.map",
-    "static/js/2.71570e2a.chunk.js.LICENSE.txt": "/covid19-react/covid19-react/static/js/2.71570e2a.chunk.js.LICENSE.txt"
+    "main.css": "/covid19-react/static/css/main.111f8ddb.chunk.css",
+    "main.js": "/covid19-react/static/js/main.e2b4b6dc.chunk.js",
+    "main.js.map": "/covid19-react/static/js/main.e2b4b6dc.chunk.js.map",
+    "runtime-main.js": "/covid19-react/static/js/runtime-main.755aee61.js",
+    "runtime-main.js.map": "/covid19-react/static/js/runtime-main.755aee61.js.map",
+    "static/js/2.71570e2a.chunk.js": "/covid19-react/static/js/2.71570e2a.chunk.js",
+    "static/js/2.71570e2a.chunk.js.map": "/covid19-react/static/js/2.71570e2a.chunk.js.map",
+    "static/js/3.b613d66d.chunk.js": "/covid19-react/static/js/3.b613d66d.chunk.js",
+    "static/js/3.b613d66d.chunk.js.map": "/covid19-react/static/js/3.b613d66d.chunk.js.map",
+    "index.html": "/covid19-react/index.html",
+    "static/css/main.111f8ddb.chunk.css.map": "/covid19-react/static/css/main.111f8ddb.chunk.css.map",
+    "static/js/2.71570e2a.chunk.js.LICENSE.txt": "/covid19-react/static/js/2.71570e2a.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.e975c3e4.js",
+    "static/js/runtime-main.755aee61.js",
     "static/js/2.71570e2a.chunk.js",
     "static/css/main.111f8ddb.chunk.css",
     "static/js/main.e2b4b6dc.chunk.js"
