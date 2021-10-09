@@ -2,12 +2,15 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { CVPieChart } from "../../components/chart/pie/pieChart";
 import { StatsCard } from "../../components/stats-card/stats-card";
+import { Table } from "../../components/table/table";
 import "./vaccination.scss";
 export const Vaccination = () => {
   const [publicReports, setPublicReports] = useState(null);
   const [cards, setCards] = useState(null);
   const [pieCharts, setPieCharts] = useState(null);
+  const [vaccinationTable, setVaccinationTable] = useState(null);
   useEffect(() => {
+    const fetchVaccinationDetails = () => {
     axios
       .get(
         "https://api.cowin.gov.in/api/v1/reports/v2/getPublicReports?state_id=&district_id=&date="
@@ -17,6 +20,7 @@ export const Vaccination = () => {
         setPublicReports(response);
         const vaccination = response?.topBlock?.vaccination;
         const vaccinationByAge = response?.vaccinationByAge;
+        const beneficiariesGroupBy = response?.getBeneficiariesGroupBy;
         let cardsData = [];
         cardsData.push(
           ...[
@@ -115,9 +119,28 @@ export const Vaccination = () => {
           ]
         );
 
+        let vaccinationTableData =[];
+        beneficiariesGroupBy.forEach((item,i)=> {
+          vaccinationTableData.push(
+            {
+              state_name:item.state_name,
+              total:item.total,
+              partial_vaccinated:item.partial_vaccinated,
+              today:item.today,
+              totally_vaccinated:item.totally_vaccinated
+            }
+          )
+        })
+        setVaccinationTable(vaccinationTableData);
         setPieCharts(pieChartsData);
         setCards(cardsData);
       });
+    }
+
+    const interval = setInterval(() => fetchVaccinationDetails(), 5 * 1000)
+    return () => {
+      clearInterval(interval);
+    }
   }, []);
   return (
     <div className="cv-main-container">
@@ -168,6 +191,22 @@ export const Vaccination = () => {
             );
           })}
       </div>
+
+      {vaccinationTable && (
+        <div className="cv-stats-table">
+          <Table
+            theaders={[
+              "State",
+              "Total",
+              "Partial vaccinated",
+              "Today",
+              "Totally vaccinated"
+            ]}
+            tbody={vaccinationTable}
+            formatter={"hi"}
+          ></Table>
+        </div>
+      )}
     </div>
   );
 };

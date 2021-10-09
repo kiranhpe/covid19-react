@@ -29,206 +29,212 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    axios.get(getCovidDataAPI()).then((covidDataResponse) => {
-      const tempdashdata = covidDataResponse.data;
-      setMainData(tempdashdata);
-      let tempCards = [
-        {
-          label: "Confirmed",
-          value: tempdashdata?.[currentState]?.total?.confirmed,
-          delta: tempdashdata?.[currentState]?.delta?.confirmed,
-          cardClass: "cv-alert",
-        },
-        {
-          label: "Active",
-          value:
-            tempdashdata?.[currentState]?.total?.confirmed -
-            (tempdashdata?.[currentState]?.total?.deceased +
-              tempdashdata?.[currentState]?.total?.recovered),
-          delta: 0,
-          cardClass: "cv-primary",
-        },
-        {
-          label: "Recovered",
-          value: tempdashdata?.[currentState]?.total?.recovered,
-          delta: tempdashdata?.[currentState]?.delta?.recovered,
-          cardClass: "cv-success",
-        },
-        {
-          label: "Deceased",
-          value: tempdashdata?.[currentState]?.total?.deceased,
-          delta: tempdashdata?.[currentState]?.delta?.deceased,
-          cardClass: "cv-warning",
-        },
-        {
-          label: "Tested",
-          value: tempdashdata?.[currentState]?.total?.tested,
-          delta: tempdashdata?.[currentState]?.delta7?.tested,
-          cardClass: "cv-info",
-        },
-        {
-          label: "Partially vaccinated",
-          value: tempdashdata?.[currentState]?.total?.vaccinated1,
-          delta: tempdashdata?.[currentState]?.delta7?.vaccinated1,
-          cardClass: "cv-success",
-        },
-        {
-          label: "Fully vaccinated",
-          value: tempdashdata?.[currentState]?.total?.vaccinated2,
-          delta: tempdashdata?.[currentState]?.delta7?.vaccinated2,
-          cardClass: "cv-primary",
-        },
-        {
-          label: "Vaccinated",
-          value:
-            tempdashdata?.[currentState]?.total?.vaccinated2 +
-            tempdashdata?.[currentState]?.total?.vaccinated1,
-          delta:
-            tempdashdata?.[currentState]?.delta7?.vaccinated2 +
-            tempdashdata?.[currentState]?.delta7?.vaccinated2,
-          cardClass: "cv-info",
-        },
-      ];
-      let pieChartsData = [];
-      pieChartsData.push([
-        {
-          name: "Confirmed",
-          value: tempdashdata?.[currentState]?.total?.confirmed,
-        },
-        {
-          name: "Active",
-          value:
-            tempdashdata?.[currentState]?.total?.confirmed -
-            (tempdashdata?.[currentState]?.total?.deceased +
-              tempdashdata?.[currentState]?.total?.recovered),
-        },
-        {
-          name: "Recovered",
-          value: tempdashdata?.[currentState]?.total?.recovered,
-        },
-        {
-          name: "Deceased",
-          value: tempdashdata?.[currentState]?.total?.deceased,
-        },
-        {
-          name: "Others",
-          value: tempdashdata?.[currentState]?.total?.other,
-        },
-      ]);
-      pieChartsData.push([
-        {
-          name: "Dose1",
-          value: tempdashdata?.[currentState]?.total?.vaccinated1,
-        },
-        {
-          name: "Dose2",
-          value: tempdashdata?.[currentState]?.total?.vaccinated2,
-        },
-      ]);
-      setPieCharts(pieChartsData);
-      setCards(tempCards);
-    });
-    axios.get(getTimeSeriesAPI()).then((timeSeriesResponse) => {
-      const jsonData = timeSeriesResponse.data;
-      setTimeSeries(jsonData);
-      let chartData = [];
-      Object.keys(jsonData[currentState].dates).forEach((item, index) => {
-        if (index % 15 === 0) {
-          chartData.push({
-            name: item,
-            confirm: jsonData[currentState].dates[item].delta7?.confirmed
-              ? jsonData[currentState].dates[item].delta7?.confirmed
-              : 0,
-            active: getActive(
-              jsonData[currentState].dates[item].delta7?.confirmed,
-              jsonData[currentState].dates[item].delta7?.recovered,
-              jsonData[currentState].dates[item].delta7?.deceased
-            ),
-            recovered: jsonData[currentState].dates[item].delta7?.recovered
-              ? jsonData[currentState].dates[item].delta7?.recovered
-              : 0,
-            deceased: jsonData[currentState].dates[item].delta7?.deceased
-              ? jsonData[currentState].dates[item].delta7?.deceased
-              : 0,
-            tested: jsonData[currentState].dates[item].delta7?.tested
-              ? jsonData[currentState].dates[item].delta7?.tested
-              : 0,
-            dose_1: jsonData[currentState].dates[item].delta7?.vaccinated1
-              ? jsonData[currentState].dates[item].delta7?.vaccinated1
-              : 0,
-            dose_2: jsonData[currentState].dates[item].delta7?.vaccinated2
-              ? jsonData[currentState].dates[item].delta7?.vaccinated2
-              : 0,
-            vaccine:
-              jsonData[currentState].dates[item].delta7?.vaccinated2 +
-              jsonData[currentState].dates[item].delta7?.vaccinated1
-                ? jsonData[currentState].dates[item].delta7?.vaccinated2 +
-                  jsonData[currentState].dates[item].delta7?.vaccinated1
-                : 0,
-          });
-        }
+    const interval = setInterval(() => {
+      axios.get(getCovidDataAPI()).then((covidDataResponse) => {
+        const tempdashdata = covidDataResponse.data;
+        setMainData(tempdashdata);
+        let tempCards = [
+          {
+            label: "Confirmed",
+            value: tempdashdata?.[currentState]?.total?.confirmed,
+            delta: tempdashdata?.[currentState]?.delta?.confirmed,
+            cardClass: "cv-alert",
+          },
+          {
+            label: "Active",
+            value:
+              tempdashdata?.[currentState]?.total?.confirmed -
+              (tempdashdata?.[currentState]?.total?.deceased +
+                tempdashdata?.[currentState]?.total?.recovered),
+            delta: 0,
+            cardClass: "cv-primary",
+          },
+          {
+            label: "Recovered",
+            value: tempdashdata?.[currentState]?.total?.recovered,
+            delta: tempdashdata?.[currentState]?.delta?.recovered,
+            cardClass: "cv-success",
+          },
+          {
+            label: "Deceased",
+            value: tempdashdata?.[currentState]?.total?.deceased,
+            delta: tempdashdata?.[currentState]?.delta?.deceased,
+            cardClass: "cv-warning",
+          },
+          {
+            label: "Tested",
+            value: tempdashdata?.[currentState]?.total?.tested,
+            delta: tempdashdata?.[currentState]?.delta7?.tested,
+            cardClass: "cv-info",
+          },
+          {
+            label: "Partially vaccinated",
+            value: tempdashdata?.[currentState]?.total?.vaccinated1,
+            delta: tempdashdata?.[currentState]?.delta7?.vaccinated1,
+            cardClass: "cv-success",
+          },
+          {
+            label: "Fully vaccinated",
+            value: tempdashdata?.[currentState]?.total?.vaccinated2,
+            delta: tempdashdata?.[currentState]?.delta7?.vaccinated2,
+            cardClass: "cv-primary",
+          },
+          {
+            label: "Vaccinated",
+            value:
+              tempdashdata?.[currentState]?.total?.vaccinated2 +
+              tempdashdata?.[currentState]?.total?.vaccinated1,
+            delta:
+              tempdashdata?.[currentState]?.delta7?.vaccinated2 +
+              tempdashdata?.[currentState]?.delta7?.vaccinated2,
+            cardClass: "cv-info",
+          },
+        ];
+        let pieChartsData = [];
+        pieChartsData.push([
+          {
+            name: "Confirmed",
+            value: tempdashdata?.[currentState]?.total?.confirmed,
+          },
+          {
+            name: "Active",
+            value:
+              tempdashdata?.[currentState]?.total?.confirmed -
+              (tempdashdata?.[currentState]?.total?.deceased +
+                tempdashdata?.[currentState]?.total?.recovered),
+          },
+          {
+            name: "Recovered",
+            value: tempdashdata?.[currentState]?.total?.recovered,
+          },
+          {
+            name: "Deceased",
+            value: tempdashdata?.[currentState]?.total?.deceased,
+          },
+          {
+            name: "Others",
+            value: tempdashdata?.[currentState]?.total?.other,
+          },
+        ]);
+        pieChartsData.push([
+          {
+            name: "Dose1",
+            value: tempdashdata?.[currentState]?.total?.vaccinated1,
+          },
+          {
+            name: "Dose2",
+            value: tempdashdata?.[currentState]?.total?.vaccinated2,
+          },
+        ]);
+        setPieCharts(pieChartsData);
+        setCards(tempCards);
       });
-      let tempCharts = [
-        {
-          name: "confirmed",
-          data: chartData.map((x) => {
-            return { name: x.name, confirmed: x.confirm };
-          }),
-          strokeColor: "#F7685B",
-        },
-        {
-          name: "active",
-          data: chartData.map((x) => {
-            return { name: x.name, active: x.active };
-          }),
-          strokeColor: "#109CF1",
-        },
-        {
-          name: "recovered",
-          data: chartData.map((x) => {
-            return { name: x.name, recovered: x.recovered };
-          }),
-          strokeColor: "#2ED47A",
-        },
-        {
-          name: "deceased",
-          data: chartData.map((x) => {
-            return { name: x.name, deceased: x.deceased };
-          }),
-          strokeColor: "#FFB946",
-        },
-        {
-          name: "tested",
-          data: chartData.map((x) => {
-            return { name: x.name, tested: x.tested };
-          }),
-          strokeColor: "#885AF8",
-        },
-        {
-          name: "dose_1",
-          data: chartData.map((x) => {
-            return { name: x.name, dose_1: x.dose_1 };
-          }),
-          strokeColor: "#2ED47A",
-        },
-        {
-          name: "dose_2",
-          data: chartData.map((x) => {
-            return { name: x.name, dose_2: x.dose_2 };
-          }),
-          strokeColor: "#109CF1",
-        },
-        {
-          name: "vaccine",
-          data: chartData.map((x) => {
-            return { name: x.name, vaccine: x.vaccine };
-          }),
-          strokeColor: "#885AF8",
-        },
-      ];
-
-      setCharts(tempCharts);
-    });
+      axios.get(getTimeSeriesAPI()).then((timeSeriesResponse) => {
+        const jsonData = timeSeriesResponse.data;
+        setTimeSeries(jsonData);
+        let chartData = [];
+        Object.keys(jsonData[currentState].dates).forEach((item, index) => {
+          if (index % 15 === 0) {
+            chartData.push({
+              name: item,
+              confirm: jsonData[currentState].dates[item].delta7?.confirmed
+                ? jsonData[currentState].dates[item].delta7?.confirmed
+                : 0,
+              active: getActive(
+                jsonData[currentState].dates[item].delta7?.confirmed,
+                jsonData[currentState].dates[item].delta7?.recovered,
+                jsonData[currentState].dates[item].delta7?.deceased
+              ),
+              recovered: jsonData[currentState].dates[item].delta7?.recovered
+                ? jsonData[currentState].dates[item].delta7?.recovered
+                : 0,
+              deceased: jsonData[currentState].dates[item].delta7?.deceased
+                ? jsonData[currentState].dates[item].delta7?.deceased
+                : 0,
+              tested: jsonData[currentState].dates[item].delta7?.tested
+                ? jsonData[currentState].dates[item].delta7?.tested
+                : 0,
+              dose_1: jsonData[currentState].dates[item].delta7?.vaccinated1
+                ? jsonData[currentState].dates[item].delta7?.vaccinated1
+                : 0,
+              dose_2: jsonData[currentState].dates[item].delta7?.vaccinated2
+                ? jsonData[currentState].dates[item].delta7?.vaccinated2
+                : 0,
+              vaccine:
+                jsonData[currentState].dates[item].delta7?.vaccinated2 +
+                jsonData[currentState].dates[item].delta7?.vaccinated1
+                  ? jsonData[currentState].dates[item].delta7?.vaccinated2 +
+                    jsonData[currentState].dates[item].delta7?.vaccinated1
+                  : 0,
+            });
+          }
+        });
+        let tempCharts = [
+          {
+            name: "confirmed",
+            data: chartData.map((x) => {
+              return { name: x.name, confirmed: x.confirm };
+            }),
+            strokeColor: "#F7685B",
+          },
+          {
+            name: "active",
+            data: chartData.map((x) => {
+              return { name: x.name, active: x.active };
+            }),
+            strokeColor: "#109CF1",
+          },
+          {
+            name: "recovered",
+            data: chartData.map((x) => {
+              return { name: x.name, recovered: x.recovered };
+            }),
+            strokeColor: "#2ED47A",
+          },
+          {
+            name: "deceased",
+            data: chartData.map((x) => {
+              return { name: x.name, deceased: x.deceased };
+            }),
+            strokeColor: "#FFB946",
+          },
+          {
+            name: "tested",
+            data: chartData.map((x) => {
+              return { name: x.name, tested: x.tested };
+            }),
+            strokeColor: "#885AF8",
+          },
+          {
+            name: "dose_1",
+            data: chartData.map((x) => {
+              return { name: x.name, dose_1: x.dose_1 };
+            }),
+            strokeColor: "#2ED47A",
+          },
+          {
+            name: "dose_2",
+            data: chartData.map((x) => {
+              return { name: x.name, dose_2: x.dose_2 };
+            }),
+            strokeColor: "#109CF1",
+          },
+          {
+            name: "vaccine",
+            data: chartData.map((x) => {
+              return { name: x.name, vaccine: x.vaccine };
+            }),
+            strokeColor: "#885AF8",
+          },
+        ];
+  
+        setCharts(tempCharts);
+      });
+    }, 5 * 1000)
+    return () => {
+      clearInterval(interval);
+    }
+    
   }, [currentState]);
 
   const fetchStates = () => {
@@ -298,9 +304,14 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (mainData && states.states.length > 0) {
-      setTableData(extractDataForTable(states.states, mainData));
-    }
+    const interval = setInterval(() => {
+      if (mainData && states.states.length > 0) {
+        setTableData(extractDataForTable(states.states, mainData));
+      }
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+    };
   }, [currentState, mainData]);
 
   return (
