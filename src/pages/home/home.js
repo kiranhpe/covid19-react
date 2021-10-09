@@ -378,6 +378,7 @@ const Home = () => {
             ]}
             tbody={tableData}
             formatter={"hi"}
+            onRowClick={()=>{}}
           ></Table>
         </div>
       )}
