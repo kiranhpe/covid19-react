@@ -29,8 +29,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    
-    const fetchHomePageData =()=> {
+    const fetchHomePageData = () => {
       axios.get(getCovidDataAPI()).then((covidDataResponse) => {
         const tempdashdata = covidDataResponse.data;
         setMainData(tempdashdata);
@@ -228,14 +227,12 @@ const Home = () => {
             strokeColor: "#885AF8",
           },
         ];
-  
+
         setCharts(tempCharts);
       });
-    }
-    
-    fetchHomePageData();
+    };
 
-    
+    fetchHomePageData();
   }, [currentState]);
 
   const fetchStates = () => {
@@ -305,14 +302,9 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (mainData && states.states.length > 0) {
-        setTableData(extractDataForTable(states.states, mainData));
-      }
-    }, 10000);
-    return () => {
-      clearInterval(interval);
-    };
+    if (mainData && states.states.length > 0) {
+      setTableData(extractDataForTable(states.states, mainData));
+    }
   }, [currentState, mainData]);
 
   return (

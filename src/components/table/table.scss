@@ -24,7 +24,7 @@
             }
             @for $x from 1 through 100 {
                 &:nth-child(#{$x}) {
-                  animation-delay: 100ms * ($x - 1);
+                  animation-delay: 10ms * ($x - 1);
                 }
               }
               &:nth-child(even) {
