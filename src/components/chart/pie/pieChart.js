@@ -1,5 +1,5 @@
 import React from "react";
-import { PieChart, Pie, Cell, Legend } from "recharts";
+import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
 import './pieChart.scss';
 
 export const CVPieChart = ({ pieData, title }) => {
@@ -21,6 +21,7 @@ export const CVPieChart = ({ pieData, title }) => {
           ))}
         </Pie>
         <Legend iconType="circle" fontSize={4} />
+        <Tooltip/>
       </PieChart>
     </div>
   );
