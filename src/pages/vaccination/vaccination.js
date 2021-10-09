@@ -79,6 +79,10 @@ const Vaccination = () => {
   }, [currentState, currentDistrict]);
 
   const handleTableRowClick = (row) => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
     if (row.state_name) {
       setCurrentState(states.find((x) => x.label === row.state_name).value);
     } else if (row.district_name) {
