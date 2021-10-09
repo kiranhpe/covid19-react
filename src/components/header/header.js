@@ -13,7 +13,7 @@ export const Header = () => {
       <div className="right-side">
         <ul className="links-container">
           <li>
-            <NavLink to="/" activeClassName="active" exact>
+            <NavLink to="/" activeclassname="active" exact>
               <span>Home</span>
             </NavLink>
           </li>
