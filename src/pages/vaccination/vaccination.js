@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Card } from "../../components/card/card";
+import { CVBarChart } from "../../components/chart/bar/BarChart";
 import { CVPieChart } from "../../components/chart/pie/pieChart";
 import { DropDown } from "../../components/select/select";
 import { StatsCard } from "../../components/stats-card/stats-card";
@@ -11,6 +13,7 @@ const Vaccination = () => {
   const [cards, setCards] = useState(null);
   const [pieCharts, setPieCharts] = useState(null);
   const [lineCharts, setLineCharts] = useState(null);
+  const [barChart, setBarCharts] = useState(null);
   const [vaccinationTable, setVaccinationTable] = useState(null);
   const [states, setStates] = useState(null);
   const [currentState, setCurrentState] = useState("");
@@ -37,6 +40,7 @@ const Vaccination = () => {
 
           setPieCharts(getPieChartData(vaccination, vaccinationByAge));
           setCards(getCardsData(vaccination, vaccinationByAge));
+          setBarCharts(getBarChartsData(beneficiariesGroupBy));
           if (currentState === "") {
             setStates(getStatesFromRawData(beneficiariesGroupBy, ""));
             setVaccinationTable(getTableData(beneficiariesGroupBy, "", ""));
@@ -76,7 +80,7 @@ const Vaccination = () => {
           console.log(error);
         }
       );
-  }, [currentState, currentDistrict, selectedDropdown1,selectedDropdown2]);
+  }, [currentState, currentDistrict, selectedDropdown1, selectedDropdown2]);
 
   const handleTableRowClick = (row) => {
     window.scrollTo({
@@ -97,7 +101,7 @@ const Vaccination = () => {
   };
   return (
     <div className="cv-main-container">
-      {states && selectedDropdown1===null &&(
+      {states && selectedDropdown1 === null && (
         <DropDown
           placeholder="State"
           data={states}
@@ -110,7 +114,7 @@ const Vaccination = () => {
           selectedItemDefault={selectedDropdown1}
         ></DropDown>
       )}
-      {states && selectedDropdown1 &&(
+      {states && selectedDropdown1 && (
         <DropDown
           placeholder="State"
           data={states}
@@ -122,7 +126,7 @@ const Vaccination = () => {
           selectedItemDefault={selectedDropdown1}
         ></DropDown>
       )}
-      {districts && selectedDropdown2 === null &&(
+      {districts && selectedDropdown2 === null && (
         <DropDown
           placeholder="Districts"
           data={districts}
@@ -133,7 +137,7 @@ const Vaccination = () => {
           selectedItemDefault={selectedDropdown2}
         ></DropDown>
       )}
-      {districts && selectedDropdown2  &&(
+      {districts && selectedDropdown2 && (
         <DropDown
           placeholder="Districts"
           data={districts}
@@ -212,16 +216,29 @@ const Vaccination = () => {
                 className="cv-pie-chart-container"
                 key={"pie-container-" + index}
               >
-                <CVPieChart
-                  pieData={item.data}
-                  title={item.title}
-                  className="pie-card"
-                  key={"pie-" + index}
-                ></CVPieChart>
+                <Card>
+                  {" "}
+                  <CVPieChart
+                    pieData={item.data}
+                    title={item.title}
+                    className="pie-card"
+                    key={"pie-" + index}
+                  ></CVPieChart>
+                </Card>
               </div>
             );
           })}
       </div>
+      {barChart && currentDistrict === "" && (
+        <div className="bar-chart">
+          <Card>
+            <CVBarChart
+              barChartData={barChart.barChartData}
+              bars={barChart.bars}
+            />
+          </Card>
+        </div>
+      )}
 
       {vaccinationTable && currentDistrict === "" && (
         <div className="cv-stats-table">
@@ -271,6 +288,28 @@ const getTableData = (
   });
 
   return vaccinationTableData;
+};
+const getBarChartsData = (beneficiariesGroupBy) => {
+  let barChartData = [];
+  let barConfig = [
+    {
+      dataKey: "Dose1",
+      fill: "#109CF1",
+    },
+    {
+      dataKey: "Dose2",
+      fill: "#2ED47A",
+    },
+  ];
+  beneficiariesGroupBy.forEach((item, i) => {
+    barChartData.push({
+      name: item.district_id ? item.title : item.state_name,
+      Dose1: item.partial_vaccinated,
+      Dose2: item.totally_vaccinated,
+    });
+  });
+
+  return { barChartData: barChartData, bars: barConfig };
 };
 
 const getPieChartData = (vaccination, vaccinationByAge) => {
