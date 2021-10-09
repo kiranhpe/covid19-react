@@ -36,15 +36,17 @@ const Vaccination = () => {
             setCards(getCardsData(vaccination, vaccinationByAge));
             if (currentState === "") {
               setStates(getStatesFromRawData(beneficiariesGroupBy, ""));
-              setVaccinationTable(getTableData(beneficiariesGroupBy,"",""));
+              setVaccinationTable(getTableData(beneficiariesGroupBy, "", ""));
 
               setDistricts(null);
               setCurrentDistrict("");
-            } else if(currentState !== "" && currentDistrict === ""){
+            } else if (currentState !== "" && currentDistrict === "") {
               setDistricts(
                 getStatesFromRawData(beneficiariesGroupBy, currentState)
               );
-              setVaccinationTable(getTableData(beneficiariesGroupBy,currentState,""));
+              setVaccinationTable(
+                getTableData(beneficiariesGroupBy, currentState, "")
+              );
             }
           }
         },
@@ -76,6 +78,15 @@ const Vaccination = () => {
       );
   }, [currentState, currentDistrict]);
 
+  const handleTableRowClick = (row) => {
+    if (row.state_name) {
+      setCurrentState(states.find((x) => x.label === row.state_name).value);
+    } else if (row.district_name) {
+      setCurrentDistrict(
+        districts.find((x) => x.label === row.district_name).value
+      );
+    }
+  };
   return (
     <div className="cv-main-container">
       {states && (
@@ -102,7 +113,7 @@ const Vaccination = () => {
       <div className="cv-row">
         {cards &&
           cards.map((item, i) => {
-            if (i < 3)
+            if (i < 3) {
               return (
                 <div className="cv-stats-card">
                   <StatsCard
@@ -112,34 +123,40 @@ const Vaccination = () => {
                   ></StatsCard>
                 </div>
               );
+            }
+            return null;
           })}
       </div>
       <div className="cv-row">
         {cards &&
           cards.map((item, i) => {
-            if (i >= 3 && i < 6)
+            if (i >= 3 && i < 6) {
               return (
                 <div className="cv-stats-card">
                   <StatsCard card={item} key={"card-" + i}></StatsCard>
                 </div>
               );
+            }
+            return null;
           })}
       </div>
       <div className="cv-row">
         {cards &&
           cards.map((item, i) => {
-            if (i >= 6 && i < 9)
+            if (i >= 6 && i < 9) {
               return (
                 <div className="cv-stats-card">
                   <StatsCard card={item} key={"card-" + i}></StatsCard>
                 </div>
               );
+            }
+            return null;
           })}
       </div>
       <div className="cv-row">
         {cards &&
           cards.map((item, i) => {
-            if (i >= 9 && i < 12)
+            if (i >= 9 && i < 12) {
               return (
                 <div className="cv-stats-card">
                   <StatsCard
@@ -149,6 +166,8 @@ const Vaccination = () => {
                   ></StatsCard>
                 </div>
               );
+            }
+            return null;
           })}
       </div>
       <div className="cv-row">
@@ -170,7 +189,7 @@ const Vaccination = () => {
           })}
       </div>
 
-      {(vaccinationTable && currentDistrict == "") && (
+      {vaccinationTable && currentDistrict === "" && (
         <div className="cv-stats-table">
           <Table
             theaders={[
@@ -183,6 +202,7 @@ const Vaccination = () => {
             tbody={vaccinationTable}
             formatter={"hi"}
             key={"table-1"}
+            onRowClick={(e) => handleTableRowClick(e)}
           ></Table>
         </div>
       )}
@@ -190,10 +210,14 @@ const Vaccination = () => {
   );
 };
 
-const getTableData = (beneficiariesGroupBy, currentState="", currentDistrict="") => {
+const getTableData = (
+  beneficiariesGroupBy,
+  currentState = "",
+  currentDistrict = ""
+) => {
   let vaccinationTableData = [];
   beneficiariesGroupBy.forEach((item, i) => {
-    if(currentState ===""){
+    if (currentState === "") {
       vaccinationTableData.push({
         state_name: item.district_id ? item.title : item.state_name,
         total: item.total,
@@ -201,8 +225,7 @@ const getTableData = (beneficiariesGroupBy, currentState="", currentDistrict="")
         today: item.today,
         totally_vaccinated: item.totally_vaccinated,
       });
-    }
-    else if(currentDistrict === ""){
+    } else if (currentDistrict === "") {
       vaccinationTableData.push({
         district_name: item.district_id ? item.title : item.state_name,
         total: item.total,

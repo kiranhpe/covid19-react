@@ -2,7 +2,10 @@ import React from "react";
 import { Card } from "../card/card";
 import "./table.scss";
 
-export const Table = ({ theaders, tbody, formatter }) => {
+export const Table = ({ theaders, tbody, formatter, onRowClick }) => {
+  const handleClick =(item)=>{
+    onRowClick(item);
+  }
   return (
     <Card>
       <div className="cv-table">
@@ -17,7 +20,7 @@ export const Table = ({ theaders, tbody, formatter }) => {
           <tbody>
             {tbody?.map((x, i) => {
               return (
-                <tr key={i}>
+                <tr key={i} onClick={()=>handleClick(x)}>
                   {getValuesFromObject(x).map((y) => {
                     return <td>{y.toLocaleString(formatter)}</td>;
                   })}
