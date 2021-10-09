@@ -17,6 +17,9 @@ const Vaccination = () => {
   const [districts, setDistricts] = useState(null);
   const [currentDistrict, setCurrentDistrict] = useState("");
 
+  const [selectedDropdown1, setSelectedDropdown1] = useState(null);
+  const [selectedDropdown2, setSelectedDropdown2] = useState(null);
+
   useEffect(() => {
     axios
       .get(
@@ -25,30 +28,30 @@ const Vaccination = () => {
       .then(
         (responseData) => {
           const PublicReportsResponse = responseData.data;
-          if (PublicReportsResponse) {
-            setPublicReports(PublicReportsResponse);
-            const vaccination = PublicReportsResponse?.topBlock?.vaccination;
-            const vaccinationByAge = PublicReportsResponse?.vaccinationByAge;
-            const beneficiariesGroupBy =
-              PublicReportsResponse?.getBeneficiariesGroupBy;
+          //if (PublicReportsResponse) {
+          setPublicReports(PublicReportsResponse);
+          const vaccination = PublicReportsResponse?.topBlock?.vaccination;
+          const vaccinationByAge = PublicReportsResponse?.vaccinationByAge;
+          const beneficiariesGroupBy =
+            PublicReportsResponse?.getBeneficiariesGroupBy;
 
-            setPieCharts(getPieChartData(vaccination, vaccinationByAge));
-            setCards(getCardsData(vaccination, vaccinationByAge));
-            if (currentState === "") {
-              setStates(getStatesFromRawData(beneficiariesGroupBy, ""));
-              setVaccinationTable(getTableData(beneficiariesGroupBy, "", ""));
+          setPieCharts(getPieChartData(vaccination, vaccinationByAge));
+          setCards(getCardsData(vaccination, vaccinationByAge));
+          if (currentState === "") {
+            setStates(getStatesFromRawData(beneficiariesGroupBy, ""));
+            setVaccinationTable(getTableData(beneficiariesGroupBy, "", ""));
 
-              setDistricts(null);
-              setCurrentDistrict("");
-            } else if (currentState !== "" && currentDistrict === "") {
-              setDistricts(
-                getStatesFromRawData(beneficiariesGroupBy, currentState)
-              );
-              setVaccinationTable(
-                getTableData(beneficiariesGroupBy, currentState, "")
-              );
-            }
+            setDistricts(null);
+            setCurrentDistrict("");
+          } else if (currentState !== "" && currentDistrict === "") {
+            setDistricts(
+              getStatesFromRawData(beneficiariesGroupBy, currentState)
+            );
+            setVaccinationTable(
+              getTableData(beneficiariesGroupBy, currentState, "")
+            );
           }
+          // }
         },
         (error) => {
           console.log(error);
@@ -61,22 +64,19 @@ const Vaccination = () => {
       .then(
         (response) => {
           const vaccinePublicReportsJson = response.data;
-          if (publicReports && vaccinePublicReportsJson) {
-            setVaccinePublicReports(vaccinePublicReportsJson);
-            const weeklyReport = response.data?.weeklyReport;
-            const weeklyVacAgeWiseReport =
-              response.data?.weeklyVacAgeWiseReport;
+          //if (publicReports && vaccinePublicReportsJson) {
+          setVaccinePublicReports(vaccinePublicReportsJson);
+          const weeklyReport = response.data?.weeklyReport;
+          const weeklyVacAgeWiseReport = response.data?.weeklyVacAgeWiseReport;
 
-            setLineCharts(
-              getLineChartData(weeklyReport, weeklyVacAgeWiseReport)
-            );
-          }
+          setLineCharts(getLineChartData(weeklyReport, weeklyVacAgeWiseReport));
+          // }
         },
         (error) => {
           console.log(error);
         }
       );
-  }, [currentState, currentDistrict]);
+  }, [currentState, currentDistrict, selectedDropdown1,selectedDropdown2]);
 
   const handleTableRowClick = (row) => {
     window.scrollTo({
@@ -85,15 +85,32 @@ const Vaccination = () => {
     });
     if (row.state_name) {
       setCurrentState(states.find((x) => x.label === row.state_name).value);
+      setSelectedDropdown1(states.find((x) => x.label === row.state_name));
     } else if (row.district_name) {
       setCurrentDistrict(
         districts.find((x) => x.label === row.district_name).value
+      );
+      setSelectedDropdown2(
+        districts.find((x) => x.label === row.district_name)
       );
     }
   };
   return (
     <div className="cv-main-container">
-      {states && (
+      {states && selectedDropdown1===null &&(
+        <DropDown
+          placeholder="State"
+          data={states}
+          onStateChange={(e) => {
+            setCurrentState(e.value);
+            setCurrentDistrict("");
+            setSelectedDropdown2(null);
+          }}
+          isLoading={false}
+          selectedItemDefault={selectedDropdown1}
+        ></DropDown>
+      )}
+      {states && selectedDropdown1 &&(
         <DropDown
           placeholder="State"
           data={states}
@@ -102,9 +119,10 @@ const Vaccination = () => {
             setCurrentDistrict("");
           }}
           isLoading={false}
+          selectedItemDefault={selectedDropdown1}
         ></DropDown>
       )}
-      {districts && (
+      {districts && selectedDropdown2 === null &&(
         <DropDown
           placeholder="Districts"
           data={districts}
@@ -112,6 +130,18 @@ const Vaccination = () => {
             setCurrentDistrict(e.value);
           }}
           isLoading={false}
+          selectedItemDefault={selectedDropdown2}
+        ></DropDown>
+      )}
+      {districts && selectedDropdown2  &&(
+        <DropDown
+          placeholder="Districts"
+          data={districts}
+          onStateChange={(e) => {
+            setCurrentDistrict(e.value);
+          }}
+          isLoading={false}
+          selectedItemDefault={selectedDropdown2}
         ></DropDown>
       )}
       <div className="cv-row">

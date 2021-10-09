@@ -1,8 +1,8 @@
 import React from "react";
 import Select from "react-select";
 import "./select.scss";
-export const DropDown =({onStateChange,data,isLoading,placeholder})=> {
-  const [selectedOption, setSelectedOption] = React.useState('TT');
+export const DropDown =({onStateChange,data,isLoading,placeholder, selectedItemDefault})=> {
+  const [selectedOption, setSelectedOption] = React.useState(selectedItemDefault);
   const handleChange = (selectedItem) => {
     setSelectedOption(selectedItem);
     onStateChange(selectedItem);
