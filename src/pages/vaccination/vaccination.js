@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { CVPieChart } from "../../components/chart/pie/pieChart";
+import { DropDown } from "../../components/select/select";
 import { StatsCard } from "../../components/stats-card/stats-card";
 import { Table } from "../../components/table/table";
 import "./vaccination.scss";
@@ -11,39 +12,93 @@ const Vaccination = () => {
   const [pieCharts, setPieCharts] = useState(null);
   const [lineCharts, setLineCharts] = useState(null);
   const [vaccinationTable, setVaccinationTable] = useState(null);
+  const [states, setStates] = useState(null);
+  const [currentState, setCurrentState] = useState("");
+  const [districts, setDistricts] = useState(null);
+  const [currentDistrict, setCurrentDistrict] = useState("");
 
   useEffect(() => {
     axios
       .get(
-        "https://api.cowin.gov.in/api/v1/reports/v2/getPublicReports?state_id=&district_id=&date="
+        `https://api.cowin.gov.in/api/v1/reports/v2/getPublicReports?state_id=${currentState}&district_id=${currentDistrict}&date=`
       )
-      .then((responseData) => {
-        const response = responseData.data;
-        setPublicReports(response);
-        const vaccination = response?.topBlock?.vaccination;
-        const vaccinationByAge = response?.vaccinationByAge;
-        const beneficiariesGroupBy = response?.getBeneficiariesGroupBy;
+      .then(
+        (responseData) => {
+          const PublicReportsResponse = responseData.data;
+          if (PublicReportsResponse) {
+            setPublicReports(PublicReportsResponse);
+            const vaccination = PublicReportsResponse?.topBlock?.vaccination;
+            const vaccinationByAge = PublicReportsResponse?.vaccinationByAge;
+            const beneficiariesGroupBy =
+              PublicReportsResponse?.getBeneficiariesGroupBy;
 
-        setVaccinationTable(getTableData(beneficiariesGroupBy));
-        setPieCharts(getPieChartData(vaccination, vaccinationByAge));
-        setCards(getCardsData(vaccination, vaccinationByAge));
-      });
+            setPieCharts(getPieChartData(vaccination, vaccinationByAge));
+            setCards(getCardsData(vaccination, vaccinationByAge));
+            if (currentState === "") {
+              setStates(getStatesFromRawData(beneficiariesGroupBy, ""));
+              setVaccinationTable(getTableData(beneficiariesGroupBy,"",""));
+
+              setDistricts(null);
+              setCurrentDistrict("");
+            } else if(currentState !== "" && currentDistrict === ""){
+              setDistricts(
+                getStatesFromRawData(beneficiariesGroupBy, currentState)
+              );
+              setVaccinationTable(getTableData(beneficiariesGroupBy,currentState,""));
+            }
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     axios
       .get(
-        "https://api.cowin.gov.in/api/v1/reports/v2/getVacPublicReports?state_id=&district_id=&date"
+        `https://api.cowin.gov.in/api/v1/reports/v2/getVacPublicReports?state_id=${currentState}&district_id=${currentDistrict}&date`
       )
-      .then((response) => {
-        const vaccinePublicReportsJson = response.data;
-        setVaccinePublicReports(vaccinePublicReportsJson);
-        const weeklyReport = response.data?.weeklyReport;
-        const weeklyVacAgeWiseReport = response.data?.weeklyVacAgeWiseReport;
-        
-        setLineCharts(getLineChartData(weeklyReport, weeklyVacAgeWiseReport));
-      });
-  }, []);
+      .then(
+        (response) => {
+          const vaccinePublicReportsJson = response.data;
+          if (publicReports && vaccinePublicReportsJson) {
+            setVaccinePublicReports(vaccinePublicReportsJson);
+            const weeklyReport = response.data?.weeklyReport;
+            const weeklyVacAgeWiseReport =
+              response.data?.weeklyVacAgeWiseReport;
+
+            setLineCharts(
+              getLineChartData(weeklyReport, weeklyVacAgeWiseReport)
+            );
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }, [currentState, currentDistrict]);
 
   return (
     <div className="cv-main-container">
+      {states && (
+        <DropDown
+          placeholder="State"
+          data={states}
+          onStateChange={(e) => {
+            setCurrentState(e.value);
+            setCurrentDistrict("");
+          }}
+          isLoading={false}
+        ></DropDown>
+      )}
+      {districts && (
+        <DropDown
+          placeholder="Districts"
+          data={districts}
+          onStateChange={(e) => {
+            setCurrentDistrict(e.value);
+          }}
+          isLoading={false}
+        ></DropDown>
+      )}
       <div className="cv-row">
         {cards &&
           cards.map((item, i) => {
@@ -115,11 +170,11 @@ const Vaccination = () => {
           })}
       </div>
 
-      {vaccinationTable && (
+      {(vaccinationTable && currentDistrict == "") && (
         <div className="cv-stats-table">
           <Table
             theaders={[
-              "State",
+              currentState === "" ? "State" : "District",
               "Total",
               "Partial vaccinated",
               "Today",
@@ -135,23 +190,34 @@ const Vaccination = () => {
   );
 };
 
-const getTableData = (beneficiariesGroupBy) =>{
-  let vaccinationTableData =[];
+const getTableData = (beneficiariesGroupBy, currentState="", currentDistrict="") => {
+  let vaccinationTableData = [];
   beneficiariesGroupBy.forEach((item, i) => {
-    vaccinationTableData.push({
-      state_name: item.state_name,
-      total: item.total,
-      partial_vaccinated: item.partial_vaccinated,
-      today: item.today,
-      totally_vaccinated: item.totally_vaccinated,
-    });
+    if(currentState ===""){
+      vaccinationTableData.push({
+        state_name: item.district_id ? item.title : item.state_name,
+        total: item.total,
+        partial_vaccinated: item.partial_vaccinated,
+        today: item.today,
+        totally_vaccinated: item.totally_vaccinated,
+      });
+    }
+    else if(currentDistrict === ""){
+      vaccinationTableData.push({
+        district_name: item.district_id ? item.title : item.state_name,
+        total: item.total,
+        partial_vaccinated: item.partial_vaccinated,
+        today: item.today,
+        totally_vaccinated: item.totally_vaccinated,
+      });
+    }
   });
 
   return vaccinationTableData;
-}
+};
 
 const getPieChartData = (vaccination, vaccinationByAge) => {
-  let pieChartsData =[];
+  let pieChartsData = [];
   pieChartsData.push(
     ...[
       {
@@ -189,10 +255,10 @@ const getPieChartData = (vaccination, vaccinationByAge) => {
   );
 
   return pieChartsData;
-}
+};
 
-const getCardsData = (vaccination, vaccinationByAge)=> {
-  let cardsData =[];
+const getCardsData = (vaccination, vaccinationByAge) => {
+  let cardsData = [];
   cardsData.push(
     ...[
       {
@@ -271,15 +337,15 @@ const getCardsData = (vaccination, vaccinationByAge)=> {
   );
 
   return cardsData;
-}
+};
 
-const getLineChartData=(weeklyReport, weeklyVacAgeWiseReport)=> {
-  let lineChartsData =[]
+const getLineChartData = (weeklyReport, weeklyVacAgeWiseReport) => {
+  let lineChartsData = [];
   lineChartsData.push(
     ...[
       {
         name: "total",
-        data: weeklyReport.map((x) => {
+        data: weeklyReport?.map((x) => {
           return { name: x.startdate, total: x.total };
         }),
         strokeColor: "#885AF8",
@@ -323,6 +389,23 @@ const getLineChartData=(weeklyReport, weeklyVacAgeWiseReport)=> {
     ]
   );
   return lineChartsData;
-}
+};
+
+const getStatesFromRawData = (beneficiariesGroupBy, currentState) => {
+  if (currentState === "") {
+    return [{ title: "India", state_id: "" }, ...beneficiariesGroupBy].map(
+      (item) => {
+        return { value: item.state_id, label: item.title };
+      }
+    );
+  } else {
+    return [
+      { title: beneficiariesGroupBy[0].state_name, district_id: "" },
+      ...beneficiariesGroupBy,
+    ].map((item) => {
+      return { value: item.district_id, label: item.title };
+    });
+  }
+};
 
 export default Vaccination;
