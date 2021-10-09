@@ -29,7 +29,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    
+    const fetchHomePageData =()=> {
       axios.get(getCovidDataAPI()).then((covidDataResponse) => {
         const tempdashdata = covidDataResponse.data;
         setMainData(tempdashdata);
@@ -230,10 +231,10 @@ const Home = () => {
   
         setCharts(tempCharts);
       });
-    }, 5 * 1000)
-    return () => {
-      clearInterval(interval);
     }
+    
+    fetchHomePageData();
+
     
   }, [currentState]);
 

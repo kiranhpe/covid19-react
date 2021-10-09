@@ -11,136 +11,131 @@ export const Vaccination = () => {
   const [vaccinationTable, setVaccinationTable] = useState(null);
   useEffect(() => {
     const fetchVaccinationDetails = () => {
-    axios
-      .get(
-        "https://api.cowin.gov.in/api/v1/reports/v2/getPublicReports?state_id=&district_id=&date="
-      )
-      .then((responseData) => {
-        const response = responseData.data;
-        setPublicReports(response);
-        const vaccination = response?.topBlock?.vaccination;
-        const vaccinationByAge = response?.vaccinationByAge;
-        const beneficiariesGroupBy = response?.getBeneficiariesGroupBy;
-        let cardsData = [];
-        cardsData.push(
-          ...[
-            {
-              label: "Vaccines",
-              value: vaccination?.total,
-              delta: vaccination?.today,
-              cardClass: "cv-info",
-            },
-            {
-              label: "Partially vaccinated",
-              value: vaccination?.tot_dose_1,
-              delta: vaccination?.today_dose_one,
-              cardClass: "cv-warning",
-            },
-            {
-              label: "Fully vaccinated",
-              value: vaccination?.tot_dose_2,
-              delta: vaccination?.today_dose_two,
-              cardClass: "cv-success",
-            },
-            {
-              label: "Covishield",
-              value: vaccination?.covishield,
-              delta: 0,
-              cardClass: "cv-alert",
-            },
-            {
-              label: "Covaxin",
-              value: vaccination?.covaxin,
-              delta: 0,
-              cardClass: "cv-info",
-            },
-            {
-              label: "Sputnik",
-              value: vaccination?.sputnik,
-              delta: 0,
-              cardClass: "cv-primary",
-            },
-            {
-              label: "Male",
-              value: vaccination?.male,
-              delta: 0,
-              cardClass: "cv-success",
-            },
-            {
-              label: "Female",
-              value: vaccination?.female,
-              delta: 0,
-              cardClass: "cv-primary",
-            },
-            {
-              label: "Others",
-              value: vaccination?.others,
-              delta: 0,
-              cardClass: "cv-info",
-            },
-          ]
-        );
+      axios
+        .get(
+          "https://api.cowin.gov.in/api/v1/reports/v2/getPublicReports?state_id=&district_id=&date="
+        )
+        .then((responseData) => {
+          const response = responseData.data;
+          setPublicReports(response);
+          const vaccination = response?.topBlock?.vaccination;
+          const vaccinationByAge = response?.vaccinationByAge;
+          const beneficiariesGroupBy = response?.getBeneficiariesGroupBy;
+          let cardsData = [];
+          cardsData.push(
+            ...[
+              {
+                label: "Vaccines",
+                value: vaccination?.total,
+                delta: vaccination?.today,
+                cardClass: "cv-info",
+              },
+              {
+                label: "Partially vaccinated",
+                value: vaccination?.tot_dose_1,
+                delta: vaccination?.today_dose_one,
+                cardClass: "cv-warning",
+              },
+              {
+                label: "Fully vaccinated",
+                value: vaccination?.tot_dose_2,
+                delta: vaccination?.today_dose_two,
+                cardClass: "cv-success",
+              },
+              {
+                label: "Covishield",
+                value: vaccination?.covishield,
+                delta: 0,
+                cardClass: "cv-alert",
+              },
+              {
+                label: "Covaxin",
+                value: vaccination?.covaxin,
+                delta: 0,
+                cardClass: "cv-info",
+              },
+              {
+                label: "Sputnik",
+                value: vaccination?.sputnik,
+                delta: 0,
+                cardClass: "cv-primary",
+              },
+              {
+                label: "Male",
+                value: vaccination?.male,
+                delta: 0,
+                cardClass: "cv-success",
+              },
+              {
+                label: "Female",
+                value: vaccination?.female,
+                delta: 0,
+                cardClass: "cv-primary",
+              },
+              {
+                label: "Others",
+                value: vaccination?.others,
+                delta: 0,
+                cardClass: "cv-info",
+              },
+            ]
+          );
 
-        let pieChartsData = [];
+          let pieChartsData = [];
 
-        pieChartsData.push(
-          ...[
-            {
-              title: "Dose 1 vs Dose 2",
-              data: [
-                { name: "Dose1", value: vaccination?.tot_dose_1 },
-                { name: "Dose2", value: vaccination?.tot_dose_2 },
-              ],
-            },
-            {
-              title: "Vaccine brands",
-              data: [
-                { name: "Covishield", value: vaccination?.covishield },
-                { name: "Covaxin", value: vaccination?.covaxin },
-                { name: "Sputnik", value: vaccination?.sputnik },
-              ],
-            },
-            {
-              title: "Gender",
-              data: [
-                { name: "Male", value: vaccination?.male },
-                { name: "Female", value: vaccination?.female },
-                { name: "Others", value: vaccination?.others },
-              ],
-            },
-            {
-              title: "Vaccination by Age",
-              data: [
-                { name: "Above60", value: vaccinationByAge?.above_60 },
-                { name: "18-45", value: vaccinationByAge?.vac_18_45 },
-                { name: "45-60", value: vaccinationByAge?.vac_45_60 },
-              ],
-            },
-          ]
-        );
+          pieChartsData.push(
+            ...[
+              {
+                title: "Dose 1 vs Dose 2",
+                data: [
+                  { name: "Dose1", value: vaccination?.tot_dose_1 },
+                  { name: "Dose2", value: vaccination?.tot_dose_2 },
+                ],
+              },
+              {
+                title: "Vaccine brands",
+                data: [
+                  { name: "Covishield", value: vaccination?.covishield },
+                  { name: "Covaxin", value: vaccination?.covaxin },
+                  { name: "Sputnik", value: vaccination?.sputnik },
+                ],
+              },
+              {
+                title: "Gender",
+                data: [
+                  { name: "Male", value: vaccination?.male },
+                  { name: "Female", value: vaccination?.female },
+                  { name: "Others", value: vaccination?.others },
+                ],
+              },
+              {
+                title: "Vaccination by Age",
+                data: [
+                  { name: "Above60", value: vaccinationByAge?.above_60 },
+                  { name: "18-45", value: vaccinationByAge?.vac_18_45 },
+                  { name: "45-60", value: vaccinationByAge?.vac_45_60 },
+                ],
+              },
+            ]
+          );
 
-        let vaccinationTableData =[];
-        beneficiariesGroupBy.forEach((item,i)=> {
-          vaccinationTableData.push(
-            {
-              state_name:item.state_name,
-              total:item.total,
-              partial_vaccinated:item.partial_vaccinated,
-              today:item.today,
-              totally_vaccinated:item.totally_vaccinated
-            }
-          )
-        })
-        setVaccinationTable(vaccinationTableData);
-        setPieCharts(pieChartsData);
-        setCards(cardsData);
-      });
-    }
+          let vaccinationTableData = [];
+          beneficiariesGroupBy.forEach((item, i) => {
+            vaccinationTableData.push({
+              state_name: item.state_name,
+              total: item.total,
+              partial_vaccinated: item.partial_vaccinated,
+              today: item.today,
+              totally_vaccinated: item.totally_vaccinated,
+            });
+          });
+          setVaccinationTable(vaccinationTableData);
+          setPieCharts(pieChartsData);
+          setCards(cardsData);
+        });
+    };
 
-    const interval = setInterval(() => fetchVaccinationDetails(), 5 * 1000)
-    return () => {
-      clearInterval(interval);
-    }
+    fetchVaccinationDetails();
   }, []);
   return (
     <div className="cv-main-container">
@@ -200,7 +195,7 @@ export const Vaccination = () => {
               "Total",
               "Partial vaccinated",
               "Today",
-              "Totally vaccinated"
+              "Totally vaccinated",
             ]}
             tbody={vaccinationTable}
             formatter={"hi"}
