@@ -29,7 +29,7 @@ export const CVBarChart = ({ barChartData, bars }) => {
           fontSize="12"
         />
         <Tooltip />
-        <Legend verticalAlign="top" />
+        <Legend verticalAlign="top" iconType="circle"/>
         {bars.map((item, index) => {
           return (
             <Bar
