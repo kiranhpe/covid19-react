@@ -214,7 +214,7 @@ const Vaccination = () => {
           pieCharts.map((item, index) => {
             return (
               <div
-                className="cv-pie-chart-container"
+                className="cv-pie-chart-container-vaccine"
                 key={"pie-container-" + index}
               >
                 <Card>

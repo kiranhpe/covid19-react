@@ -8,7 +8,6 @@ import { statesConfig } from "../../constants/states";
 import { Table } from "../../components/table/table";
 import { StatsCard } from "../../components/stats-card/stats-card";
 import { CVPieChart } from "../../components/chart/pie/pieChart";
-import Maps from "../../components/maps/map";
 
 const Home = () => {
   const [cards, setCards] = useState(null);
