@@ -25,11 +25,11 @@ export default function ThemeChanger() {
   return (
     <div className="cv-theme-container">
       <div className="cv-theme-icons">
-      {!themeState && <FaMoon />}
-      {themeState && <FaSun/>}
+      {!themeState && <FaMoon onClick={() => setThemeState(!themeState)}/>}
+      {themeState && <FaSun onClick={() => setThemeState(!themeState)}/>}
       </div>
 
-      <div>
+      {/* <div>
         <label className="switch">
           <input
             type="checkbox"
@@ -38,7 +38,7 @@ export default function ThemeChanger() {
           />
           <span className="slider round"></span>
         </label>
-      </div>
+      </div> */}
     </div>
   );
 }
