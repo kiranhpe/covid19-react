@@ -8,6 +8,7 @@ import { statesConfig } from "../../constants/states";
 import { Table } from "../../components/table/table";
 import { StatsCard } from "../../components/stats-card/stats-card";
 import { CVPieChart } from "../../components/chart/pie/pieChart";
+import Maps from "../../components/maps/map";
 
 const Home = () => {
   const [cards, setCards] = useState(null);
@@ -17,6 +18,7 @@ const Home = () => {
     states: [],
   });
 
+  const [selectedDropdown1, setSelectedDropdown1] = useState(null);
   const [mainData, setMainData] = useState(null);
   const [tableData, setTableData] = useState(null);
   const [timeSeries, setTimeSeries] = useState(null);
@@ -233,7 +235,7 @@ const Home = () => {
     };
 
     fetchHomePageData();
-  }, [currentState]);
+  }, [currentState, selectedDropdown1]);
 
   const fetchStates = () => {
     let selectStatesFeed = statesConfig.map((v) => {
@@ -305,18 +307,34 @@ const Home = () => {
     if (mainData && states.states.length > 0) {
       setTableData(extractDataForTable(states.states, mainData));
     }
-  }, [currentState, mainData]);
+  }, [currentState, mainData, selectedDropdown1]);
 
   return (
     <div className="cv-main-container">
-      <DropDown
-        placeholder="State"
-        data={states.states}
-        onStateChange={(e) => {
-          setCurrentState(e.value);
-        }}
-        isLoading={statesLoading}
-      ></DropDown>
+      {selectedDropdown1 === null && (
+        <DropDown
+          placeholder="State"
+          data={states.states}
+          onStateChange={(e) => {
+            setCurrentState(e.value);
+          }}
+          isLoading={statesLoading}
+          selectedItemDefault={selectedDropdown1}
+        ></DropDown>
+      )}
+
+      {selectedDropdown1 !==null && (
+        <DropDown
+          placeholder="State"
+          data={states.states}
+          onStateChange={(e) => {
+            setCurrentState(e.value);
+          }}
+          isLoading={statesLoading}
+          selectedItemDefault={selectedDropdown1}
+        ></DropDown>
+      )}
+
       <div className="cv-row">
         {cards
           ? cards.map((x, i) => {
@@ -378,7 +396,18 @@ const Home = () => {
             ]}
             tbody={tableData}
             formatter={"hi"}
-            onRowClick={()=>{}}
+            onRowClick={(e) => {
+              window.scroll({
+                top: 0,
+                behavior: "smooth",
+              });
+              if (e.stateName) {
+                setCurrentState(
+                  states.states.find((x) => x.label === e.stateName).value
+                );
+                setSelectedDropdown1(states.states.find((x) => x.label === e.stateName));
+              }
+            }}
           ></Table>
         </div>
       )}

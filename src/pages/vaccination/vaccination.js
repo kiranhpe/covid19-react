@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card } from "../../components/card/card";
 import { CVBarChart } from "../../components/chart/bar/BarChart";
 import { CVPieChart } from "../../components/chart/pie/pieChart";
+import Maps from "../../components/maps/map";
 import { DropDown } from "../../components/select/select";
 import { StatsCard } from "../../components/stats-card/stats-card";
 import { Table } from "../../components/table/table";
@@ -257,6 +258,11 @@ const Vaccination = () => {
           ></Table>
         </div>
       )}
+      <div className="cv-map-contaier">
+        <Card>
+          <Maps></Maps>
+        </Card>
+      </div>
     </div>
   );
 };
