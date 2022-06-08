@@ -1,6 +1,10 @@
 
 @import '../../../public/assets/_variables';
 .cv-main-container {
+    .site-info {
+        color: red;
+        font-weight: bolder;
+    }
     padding: 12px;
     .cv-row {
         display: flex;

@@ -310,6 +310,7 @@ const Home = () => {
 
   return (
     <div className="cv-main-container">
+      <marquee className="site-info">This site is not operational........</marquee>
       {selectedDropdown1 === null && (
         <DropDown
           placeholder="State"
